@@ -50,7 +50,6 @@ El Error: crear IService + AbstractService + ConcreteService cuando solo eciste 
 Estrategia KISS: Construye para el requerimiento de hoy. Si mañana aparece una segunda implementación, refactorizadas.
 Regla mental: Esperar a la terecera vez antes de generalizar.
 
-
 CODIGO:
 
 package ac.ucr.sa.principos;
@@ -100,4 +99,8 @@ public class AgeOldApp {
 }
 
 
+2. PREFIERE COMPOSICIÓN SOBRE HERENCIA
+Problema de herencia: Estructuras rígidas y fragiles, comportamientos ocultos de la jerarquia.
 
+3. USA LA API ESTÁNDAR (NO REVIENTES LA RUEDA)
+Más código propio = más mantenimiento, más pruebas, 

@@ -114,9 +114,17 @@ CODIGO:
 package ac.ucr.sa.principos;
 
 public class Student {
-    
+
     private String name;
     private String Id;
+
+    public Student(String name, String id) {
+        this.name = name;
+        Id = id;
+    }
+
+    public Student() {
+    }
 
     public String getName() {
         return name;
@@ -133,5 +141,7 @@ public class Student {
     public void setId(String id) {
         Id = id;
     }
+
 }
+
 

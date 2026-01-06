@@ -103,4 +103,35 @@ public class AgeOldApp {
 Problema de herencia: Estructuras rígidas y fragiles, comportamientos ocultos de la jerarquia.
 
 3. USA LA API ESTÁNDAR (NO REVIENTES LA RUEDA)
-Más código propio = más mantenimiento, más pruebas, 
+Más código propio = más mantenimiento, más pruebas.
+
+4. RETORNO TEMPRANO
+
+5. INMUTABILIDAD + RECORDS (JAVA 14+)
+
+CODIGO:
+
+package ac.ucr.sa.principos;
+
+public class Student {
+    
+    private String name;
+    private String Id;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+}
+

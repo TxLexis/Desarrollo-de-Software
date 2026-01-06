@@ -1,0 +1,42 @@
+**Simplicidad**
+
+**Cohesión**
+Que tanto pertenecen juntos los elementos dentro de una clase/modulo.
+
+**Acomplamiento**
+Cuánto depende un módulo/clase de los detalles de otro.
+Alto acoplamiento: Si cambias B, se rompe A.
+Bajo acoplamiento: A depende de una interfaz/contrato, no de detalles.
+
+**SRP**
+
+- Relación entre principos (Intuición)
+Simplicidad: menos pasos y menos magia.
+Cohesión: Cada cosa en su lugar, con proposito claro.
+Bajo acoplamiento: Piezas intercambiables sin romper todo.
+SRP: Cada clase responde a un tipo de cambio (un actor).
+
+CUANDO SE CUMPLE: El sistema se deja modificar sin miedo.
+
+Analogía Final: Una casa bien diseñada
+Simplicidad: Pasillos claros, distribución lógica.
+Cohesión: Cocina para cocinar, baño para bañarse (No mezcla funciones).
+Bajo acoplamiento: Puedes cambiar una lámpara sin reconstruir el techo.
+SRP: Cada habitación tiene un proposito.
+
+¿QUÉ ES KISS?
+KISS (Keep It Simple Stupid): Diseñar y codificar de forma que la solución sea clara, directa y fácil de cambiar.
+Idea clave: La complejidad tiene costo: Lectura, bugs, refactorings dolorosos.
+
+La paradoja de la simplicidad: Lograr la simplicidad es ironicamente imposible.
+
+¿QUÉ NO ES KISS?
+- No es menos lineas a cualquier costo.
+- No es código sin estructura.
+- No es evitar patroes siempre.
+
+SEÑALES DE QUE ESTÁS ROMPIENDO KISS
+- Interfaces/clases abstractas por si acaso.
+- Jerarquias profundas de herencia.
+- Reimplementar cosas que ya existen en la plataforma.
+- Métodos con muchos if anidados (arrow code).

@@ -40,3 +40,16 @@ SEÑALES DE QUE ESTÁS ROMPIENDO KISS
 - Jerarquias profundas de herencia.
 - Reimplementar cosas que ya existen en la plataforma.
 - Métodos con muchos if anidados (arrow code).
+
+
+**5 ESTRATEGIAS PARA APLICAR KISS**
+
+1. KISS + YAGNI: NO ANTICIPES EL FUTURO
+YAGNI: You Aren´t Gonna Need It
+El Error: crear IService + AbstractService + ConcreteService cuando solo eciste un servicio.
+Estrategia KISS: Construye para el requerimiento de hoy. Si mañana aparece una segunda implementación, refactorizadas.
+Regla mental: Esperar a la terecera vez antes de generalizar.
+
+
+
+

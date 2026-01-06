@@ -51,5 +51,53 @@ Estrategia KISS: Construye para el requerimiento de hoy. Si mañana aparece una 
 Regla mental: Esperar a la terecera vez antes de generalizar.
 
 
+CODIGO:
+
+package ac.ucr.sa.principos;
+
+import java.util.Calendar;
+import java.util.Scanner;
+
+public class AgeOldApp {
+
+    public static void main (String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int day = capture(scanner, "día");
+        int month = capture(scanner, "mes");
+        int year = capture(scanner, "año");
+
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH + 1);
+        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        int resultYear = currentYear-year;
+        int resultMonth = currentMonth-month;
+        if (resultMonth < 0)
+            resultYear--;
+
+        if (resultMonth < 0){
+            resultMonth = 12 + resultMonth;
+        }
+
+        int resultDay = currentDay-day;
+
+        if (resultDay <0){
+            resultMonth--;
+            resultDay = 30 + resultDay; //TODO implementar luego la verifación de los días
+        }
+
+        //Saloda: Tiene {} años, {} meses y {} días
+        System.out.printf("Tiene %d años, %d meses y %d días", resultYear, resultMonth, resultDay);
+    }
+
+    private static int capture(Scanner scanner, String label){
+        System.out.println("Ingrése " +  label + ":");
+        int value = scanner.nextInt();
+        scanner.nextLine();
+        return value;
+    }
+
+}
+
 
 

@@ -1,0 +1,17 @@
+CHECKLIST KISS (RÁPIDO)
+  - ¿Hay abstracción prematura? (YAGNI)
+  - ¿Hay herencia profunda? (Preferir composición)
+  - ¿Estoy reiventando API estándar?
+  - ¿Hay if anidados evitables? (Guard clauses)
+  - ¿Puedo hacer datos inmutables/records?
+
+
+¿QUÉ ES COHESIÓN?
+Se mide dependiendo de que tan relacionado y enfocados estám los elementos de una clase o módulo.
+
+    ¿Porqué importa?
+    - Facilita entender el código. (Menos "Saltos mentales").
+    - Reduce el costo de cambiar. (Cambios locales).
+    - Mejora la testibilidad. (Menos dependecias y escenarios).
+    - Evita clases "Cajón de sastre".
+

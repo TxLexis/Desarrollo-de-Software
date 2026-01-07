@@ -24,3 +24,16 @@ Se mide dependiendo de que tan relacionado y enfocados estám los elementos de u
         - Pruebas y mantenimiento se dispersa.
 
 
+HEURISTICA 1: EL "TEST DEL NOMBRE"
+✅: InvoiceCalculator, PasswordPolicy, OrderRepository
+❌: Utils, Helper, Manager, CommonStuff
+- Si el nombre no indica una responsabilidad clara, sospecha.
+
+HEURISTICA 2: "¿QUÉ CAMBIA JUNTO?"
+Alta cohesión significa que las razones de cambio son parecidad:
+- Si cambia la politica de impuestos -> afecta el calculo
+-
+
+HEURITICA 3: "¿USAN LOS MISMOS DATOS?"
+En alta cohesion
+

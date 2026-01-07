@@ -9,9 +9,18 @@ CHECKLIST KISS (RÁPIDO)
 ¿QUÉ ES COHESIÓN?
 Se mide dependiendo de que tan relacionado y enfocados estám los elementos de una clase o módulo.
 
-    ¿Porqué importa?
+  + ¿Porqué importa?
     - Facilita entender el código. (Menos "Saltos mentales").
     - Reduce el costo de cambiar. (Cambios locales).
     - Mejora la testibilidad. (Menos dependecias y escenarios).
     - Evita clases "Cajón de sastre".
+
+  + Alta Cohesión: Todo está relacionado con cocinar, modificar una cosa solo afecta una parte y no todo. ✅
+  + Baja Cohesión: Todo separado por cosas, que afecta el cambiar una cosa. ❌
+      Problemas de Baja Cohesión:
+        - Se convierte en un "Basurero" de funciones.
+        - Difícil de nombrar con precisión.
+        - cambios no relacionados se mezclan -> conflictos, regresiones.
+        - Pruebas y mantenimiento se dispersa.
+
 

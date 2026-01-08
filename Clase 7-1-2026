@@ -57,3 +57,77 @@ PRINCIPIO DE RESPONSABILIDAD ÚNICA (SRP)
     - Mantenibilidad
     - Pruebas
     - Reuso
+
+
+CODIGO:
+
+package ac.ucr.sa.principos;
+
+import java.util.Calendar;
+import java.util.Scanner;
+
+public class AgeOldApp {
+
+    public static void main(String[] args) {
+        Calendar userDOB = captureUserBirth();
+        ResultDOB result = calculateDOB(userDOB);
+        printResult(result);
+    }
+
+    private static int capture(Scanner scanner, String label) {
+        System.out.println("Ingrése " + label + ":");
+        int value = scanner.nextInt();
+        scanner.nextLine();
+        return value;
+    }
+
+    private static Calendar captureUserBirth() {
+        Scanner scanner = new Scanner(System.in);
+        int day = capture(scanner, "día");
+        int month = capture(scanner, "mes");
+        int year = capture(scanner, "año");
+        Calendar userDOB = Calendar.getInstance();
+        userDOB.set(Calendar.DAY_OF_MONTH, day);
+        userDOB.set(Calendar.MONTH, month);
+        userDOB.set(Calendar.YEAR, year);
+        return userDOB;
+    }
+
+    private static ResultDOB calculateDOB(Calendar userDOB) {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        int resultYear = currentYear - userDOB.get(Calendar.YEAR);
+        int resultMonth = currentMonth - userDOB.get(Calendar.MONTH);
+        if (resultMonth < 0)
+            resultYear--;
+
+        if (resultMonth < 0) {
+            resultMonth = 12 + resultMonth;
+        }
+
+        int resultDay = currentDay - userDOB.get(Calendar.DAY_OF_MONTH);
+
+        if (resultDay < 0) {
+            resultMonth--;
+            resultDay = 30 + resultYear; //TODO implementar luego la verifación de los días
+        }
+
+        return new ResultDOB(resultYear, resultMonth,  resultDay);
+    }
+
+    record ResultDOB(
+            int year,
+            int month,
+            int day
+    ) {
+    }
+
+    private static void printResult(ResultDOB result) {
+        //Saloda: Tiene {} años, {} meses y {} días
+        System.out.printf("Tiene %d años, %d meses y %d días", result.year(), result.month(), result.day());
+    }
+}
+
+

@@ -5,7 +5,6 @@ CHECKLIST KISS (RÁPIDO)
   - ¿Hay if anidados evitables? (Guard clauses)
   - ¿Puedo hacer datos inmutables/records?
 
-
 ¿QUÉ ES COHESIÓN?
 Se mide dependiendo de que tan relacionado y enfocados estám los elementos de una clase o módulo.
 
@@ -24,16 +23,37 @@ Se mide dependiendo de que tan relacionado y enfocados estám los elementos de u
         - Pruebas y mantenimiento se dispersa.
 
 
-HEURISTICA 1: EL "TEST DEL NOMBRE"
-✅: InvoiceCalculator, PasswordPolicy, OrderRepository
-❌: Utils, Helper, Manager, CommonStuff
-- Si el nombre no indica una responsabilidad clara, sospecha.
+  + HEURISTICA 1: EL "TEST DEL NOMBRE"
+    ✅: InvoiceCalculator, PasswordPolicy, OrderRepository
+    ❌: Utils, Helper, Manager, CommonStuff
+    - Si el nombre no indica una responsabilidad clara, sospecha.
+  
+  + HEURISTICA 2: "¿QUÉ CAMBIA JUNTO?"
+    Alta cohesión significa que las razones de cambio son parecidad:
+    - Si cambia la politica de impuestos -> afecta el calculo
+    -
+  
+  + HEURITICA 3: "¿USAN LOS MISMOS DATOS?"
+    En alta cohesion
 
-HEURISTICA 2: "¿QUÉ CAMBIA JUNTO?"
-Alta cohesión significa que las razones de cambio son parecidad:
-- Si cambia la politica de impuestos -> afecta el calculo
--
+--------------------------------------------------------------------------------------------------------------------
 
-HEURITICA 3: "¿USAN LOS MISMOS DATOS?"
-En alta cohesion
+PRINCIPIO DE RESPONSABILIDAD ÚNICA (SRP)
+- Un módulo o clase debe tener una sola responsabilidad.
+- Esto signica que solo debe tener una cosa que cambiar.
 
+  + Sintomas de Violación de SRP
+    - La clase tiene métodos de muchos dominios (Cálculos +  archivos  + pantalla).  
+    - Las pruebas son difíciles porque hay que probar todo a la vez.
+    - La clase es muy larga y llena de utilidades variables.
+
+  + Una clase, muchos motivos para cambiar
+  + Dividir para vencer
+    - Separamos las responsabilidades por "actor" o motivo de cambio.
+    - Convertimos un bloque en piezas remplazables.
+    - Creamos clases especialistas en una sola tarea.
+
+  + Benefecios
+    - Mantenibilidad
+    - Pruebas
+    - Reuso

@@ -1,6 +1,6 @@
 Principos de Acoplamiento
 
-ACOPLAMIENTO
+**ACOPLAMIENTO**
 Es el grado de dependencia que existe entre dos módulos(clases, componentes, capas) de software.
 - Alto acoplamiento: Si cambio A se rompe B o C.
 - Bajo acoplamiento: Puedo cambiar A sin tocar B.
@@ -56,5 +56,10 @@ Es el grado de dependencia que existe entre dos módulos(clases, componentes, ca
     - 6+ clases: Alto
     - Test del "Extranjero"
     - Bajo Acoplamiento + Cohesión = Diseño Robusto
+
+----------------------------------------------------------------------------------------------------------------------------------------
+Introducción al Patrón MVC
+
+
 
 

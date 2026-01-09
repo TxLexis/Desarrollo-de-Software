@@ -60,6 +60,43 @@ Es el grado de dependencia que existe entre dos módulos(clases, componentes, ca
 ----------------------------------------------------------------------------------------------------------------------------------------
 Introducción al Patrón MVC
 
+**MVC**
+Modelo-Vista-Controlador (MVC) es un patrón de arquitectura de software que separa los datos de una aplicación, la interfaz de usuario y la lógica de control en tres componentes distintos.
 
+El problema "El Código Espagueti"
+Sin MVC es común mezclar todo en un solo archivo.
+- Cálculos matemáticos junto a print() o input()
+- Lógica de negocio mezclada con validaciones de interfaz.
+
+PILARES
+1. El Modelo (model)
+Es la representación de los datos y la lógica de negocio.
+- Gestiona el estado de la aplicación.
+- Se encarga de guardar, recuperar y validadr datos.
+
+2. Vista (view)
+Es la interfaz que el usuario ve y con la que interactua.
+- Muestra los datos de Modelo de Usuario
+- Regla de Oro: La vista no decide que hacer con los datos, solo los muestra o los pide.
+
+3. Controlador (controller)
+Actúa como intermediario entre el Modelo y Vista.
+- Recibe la entrda de la Vista.
+- Llama a los métodos del Modelo para procesar la información.
+- Le indica a la Vista qué debe mostrar a continuación.
+
+Flujo de Datos en MVC
+1. El usuario interactúa con la Vista.
+2. El controlador recibe el evento y solicita los datos a la Vista.
+3. El Controlador envía los datos al Modelo.
+4. El Modelo actualiza el esatdo.
+5. El controlador le pide a la Vista que configure el éxito al Usuario.
+
+MVCC + Principos de Diseño
+
+VENTAJAS:
+- Reutilización: Puede usarse en consola, web o una App Móvil.
+- Paralelismo: Un desarrollador puede trabajar enla interfaz.
+- Mantenibilidad: Los errores son fáciles de localizar.
 
 

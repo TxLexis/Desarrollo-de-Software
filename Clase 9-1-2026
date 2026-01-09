@@ -1,2 +1,18 @@
 Principos de Acoplamiento
 
++ACOPLAMIENTO
+Es el grado de dependencia que existe entre dos módulos(clases, componentes, capas) de software.
+- Alto acoplamiento: Si cambio A se rompe B o C.
+- Bajo acoplamiento: Puedo cambiar A sin tocar B.
+
+IMPORTANCIA:
+Alto:
+- Cambios en cascada (efecto dominó)
+- Dificultaf para probar en aislamiento.
+- Código frágil y riesgoso de modificar.
+- Reutilización limitada.
+Bajo:
+- Cambios localizados.
+- Pruebas unitarias simples.
+- Flexibilidad para evolucionar.
+- Módulos intercambiables.

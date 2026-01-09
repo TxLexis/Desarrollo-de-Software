@@ -1,18 +1,59 @@
 Principos de Acoplamiento
 
-+ACOPLAMIENTO
+ACOPLAMIENTO
 Es el grado de dependencia que existe entre dos módulos(clases, componentes, capas) de software.
 - Alto acoplamiento: Si cambio A se rompe B o C.
 - Bajo acoplamiento: Puedo cambiar A sin tocar B.
 
-IMPORTANCIA:
-Alto:
-- Cambios en cascada (efecto dominó)
-- Dificultaf para probar en aislamiento.
-- Código frágil y riesgoso de modificar.
-- Reutilización limitada.
-Bajo:
-- Cambios localizados.
-- Pruebas unitarias simples.
-- Flexibilidad para evolucionar.
-- Módulos intercambiables.
+  IMPORTANCIA:
+    Alto:
+    - Cambios en cascada (efecto dominó)
+    - Dificultad para probar en aislamiento.
+    - Código frágil y riesgoso de modificar.
+    - Reutilización limitada.
+    Bajo:
+    - Cambios localizados.
+    - Pruebas unitarias simples.
+    - Flexibilidad para evolucionar.
+    - Módulos intercambiables.
+
+  TIPOS:
+    Alto -> Bajo
+
++ Acoplamiento de contenido (EVITAR)
+  - Un módulo accede directamente a los detalles internos de otro.
+
++ Acoplamiento común (Variables globales)
+  - Múltiples módulos acceden a datos compartidos globalmente.
+
++ Acoplamiento de control
+  - Un módulo controla el flujo de ejecución de otro mediante banderas o parámetros de control.
+
++ Acoplamiento de datos
+  - Los módulos se comunican mediante estructuras de datos simples.
+
++ Acoplamiento por interfaz (Ideal)
+  - Los módulos dependen de abstracción (interfaces).
+
++ Señales de alto acoplamiento (red flags)
+  - Señal 1: Encadenamiento de llamadas.
+  - Señal 2: Importaciones masivas.
+  - Señal 3: Cambios en cascada.
+  - Señal 4: Dificultad para probar.
+
+
++ Estrategias para reducirlo
+  - Estrategia 1: Inyección de dependecias.
+  - Estrategia 2: Programar contra interfaces.
+  - Estretegia 3: Eventos y Observadores.
+
++ Acoplamiento en arquitectura por capas (MVC)
+  - Vista -> Controlador -> Modelo
+  - Balance: acoplamiento necesario vs innecesario
+
++ Metricas de acoplamiento (informales)
+Si cambio esta clase, ¿Cuántas otras tendré que modificar?
+  - 0-2 clases: Bajo
+  - 3-5 clases: Moderado
+  - 6+ clases: Alto
+  - Test del "Extranjero"

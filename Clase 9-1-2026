@@ -18,42 +18,43 @@ Es el grado de dependencia que existe entre dos módulos(clases, componentes, ca
     - Módulos intercambiables.
 
   TIPOS:
-    Alto -> Bajo
+    + Acoplamiento de contenido (EVITAR)
+      - Un módulo accede directamente a los detalles internos de otro.
+    
+    + Acoplamiento común (Variables globales)
+      - Múltiples módulos acceden a datos compartidos globalmente.
+    
+    + Acoplamiento de control
+      - Un módulo controla el flujo de ejecución de otro mediante banderas o parámetros de control.
+    
+    + Acoplamiento de datos
+      - Los módulos se comunican mediante estructuras de datos simples.
+    
+    + Acoplamiento por interfaz (Ideal)
+      - Los módulos dependen de abstracción (interfaces).
 
-+ Acoplamiento de contenido (EVITAR)
-  - Un módulo accede directamente a los detalles internos de otro.
-
-+ Acoplamiento común (Variables globales)
-  - Múltiples módulos acceden a datos compartidos globalmente.
-
-+ Acoplamiento de control
-  - Un módulo controla el flujo de ejecución de otro mediante banderas o parámetros de control.
-
-+ Acoplamiento de datos
-  - Los módulos se comunican mediante estructuras de datos simples.
-
-+ Acoplamiento por interfaz (Ideal)
-  - Los módulos dependen de abstracción (interfaces).
-
-+ Señales de alto acoplamiento (red flags)
-  - Señal 1: Encadenamiento de llamadas.
-  - Señal 2: Importaciones masivas.
-  - Señal 3: Cambios en cascada.
-  - Señal 4: Dificultad para probar.
+  SEÑALES DE ACOPLAMIENTO (RED FLAGS):
+    - Señal 1: Encadenamiento de llamadas.
+    - Señal 2: Importaciones masivas.
+    - Señal 3: Cambios en cascada.
+    - Señal 4: Dificultad para probar.
 
 
-+ Estrategias para reducirlo
-  - Estrategia 1: Inyección de dependecias.
-  - Estrategia 2: Programar contra interfaces.
-  - Estretegia 3: Eventos y Observadores.
+  ESTRATEGIAS PARA REDUCIRLO:
+    - Estrategia 1: Inyección de dependecias.
+    - Estrategia 2: Programar contra interfaces.
+    - Estretegia 3: Eventos y Observadores.
 
-+ Acoplamiento en arquitectura por capas (MVC)
-  - Vista -> Controlador -> Modelo
-  - Balance: acoplamiento necesario vs innecesario
+  ACOPLAMIENTO EN ARQUITECTURA POR CAPAS (MVC):
+    - Vista -> Controlador -> Modelo
+    - Balance: acoplamiento necesario vs innecesario
 
-+ Metricas de acoplamiento (informales)
-Si cambio esta clase, ¿Cuántas otras tendré que modificar?
-  - 0-2 clases: Bajo
-  - 3-5 clases: Moderado
-  - 6+ clases: Alto
-  - Test del "Extranjero"
+  METRICAS DE ACOPLAMIENTO (INFORMALES):
+  Si cambio esta clase, ¿Cuántas otras tendré que modificar?
+    - 0-2 clases: Bajo
+    - 3-5 clases: Moderado
+    - 6+ clases: Alto
+    - Test del "Extranjero"
+    - Bajo Acoplamiento + Cohesión = Diseño Robusto
+
+

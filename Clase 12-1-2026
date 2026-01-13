@@ -1,1 +1,94 @@
+Notaciones de complejidad (BIG-O) Y TIEMPOS DE ALGORITMOS
+
++ ¿Que mide Big-O?
+- Ignora constantes y detalles de hardware para enfocarse en el crecimiento
+Se describe como crece el tiempo (o la memoria) de un algoritmo cuadno crece el tamaño de la entrada n.
+
++ ¿Qué es N?
+- Cantidad de elementos dependiendo de donde se use.
+
++ Mejor, Promedio y Peor Caso
+- Mejor Caso: El escenario más favorable.
+- Caso Promedio: Comportamiento esperado en general.
+- Peor Caso: El escenario más desfavorable.
+
++ O(1) Constante
+- El tiempo no depende de n
+
++ O(LOG N) Logartitmica
+- Crece muy lento, cada paso reduce el problema.
+
++ O(N) Lineal -> UN BUCLE
+- Crece proporcionalmente a n.
+
++ O(N LOG N) Lineal Logaritmoica
+- Muy común en algortmos eficientes de ordenamiento.
+
++ O(N^2) Cuadratica -> DOS BUCLES
+- Suele aparecer con dobles bucles que recorren pares.
+
++ O(2^N) y (N!) Exponencial y Factorial
+- Crecen extremadamentre rápido: se vuelven inviables pronto.
+
+Calcular BIG-O
+- Si hago A y luego B, se suma.
+
++ Bucles
+- Un bucle simple sobre n.
+
++ Condiciones (If/Else)
+- Se toma el peor camino.
+
++ Constantes que se ignoran
+- P(2n) -> O(n)
+
++ Tabla Comparativa
+- De mejor (más eficiente) a peor (crece más rápido).
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ESTRUCTURAS DE DATOS Y ALGORITMOS
+
++ Arreglo Unidimencional:
+- Es una estructura de daros que almacena una colección de elementos del mismo tipo en posciones de memoria contiguas, accesibles mediante un índice numérico.
+- Caracteristicas:
+  - Tamaño Fijo
+  - Accesso directo mediante indice: O(1)
+  - Elementos del mismo tipo de dato.
+  - Indices generalmente basados en 0.
+
+- Operaciones:
+  - Insertar al final.
+  - Insertar en posición específica.
+
++ Arreglo Bidimencional:
+-
+- Caracteristicas:
+  -
+  -
+  -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

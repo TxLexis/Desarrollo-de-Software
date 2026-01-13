@@ -48,7 +48,7 @@ Calcular BIG-O
 -------------------------------------------------------------------------------------------------------------------------------------------------
 ESTRUCTURAS DE DATOS Y ALGORITMOS
 
-+ Arreglo Unidimencional:
+**ARREGLOS UNIDIMENCIONALES**:
 - Es una estructura de daros que almacena una colección de elementos del mismo tipo en posciones de memoria contiguas, accesibles mediante un índice numérico.
 - Caracteristicas:
   - Tamaño Fijo
@@ -59,13 +59,38 @@ ESTRUCTURAS DE DATOS Y ALGORITMOS
 - Operaciones:
   - Insertar al final.
   - Insertar en posición específica.
+  - Obtener Gets/Access
+  - Eliminar en posicion específica.
+  - Recorridos en arreglos 1D.  
+  - Errores Comunes.
+    - Índice fuera del rango.
+    - Límites incorrectos en ciclos.
 
-+ Arreglo Bidimencional:
--
+**ARREGLOS BIDIMENCIONALES**
+- Organiza datos en forma de matriz (Filas y Columnas), útil para representar datos tabulares, tableros de juego, imagenes, etc.
 - Caracteristicas:
-  -
-  -
-  -
+  - Fila, Columba o mejor dicho una Tabla. matriz[fila][columna]
+
+- Operaciones:
+  - Recorridos:
+    - Por Fila.
+    - Por Columna.
+  - Recorridos en Diagonal.
+  - Insertar Fila o Columna.
+  - Errores:
+    - Confunfir fila y columna.
+    - Limites incorrectos.
+
+**TIPOS DE ORDENAMIENTOS**
+
++ Ordenamiento Burbuja
+- Compara pares de elementos adyacentes e intercambia aquellos que están en el orden incorrecto.
+
++ Busqueda Lineal
+- Recorrer.
+
++ Busqueda Binaria
+- Divide repetidamente el espacio de búsqueda a la mitad, comparando el valor buscado con el elemento central. Requiere que el arreglo esté ordenado.
 
 
 

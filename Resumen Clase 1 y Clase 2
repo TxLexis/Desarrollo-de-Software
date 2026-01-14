@@ -1,0 +1,104 @@
+Resumen: Principios de Diseño en Desarrollo de Software
+Idea Central sobre Principios de Diseño
+
++ El diseño de software busca decisiones que produzcan sistemas:
+- Fáciles de entender.
+- Fáciles de cambiar.
+- Difíciles de romper.
+Problema real: el software cambia constantemente.
+Los principios de diseño son reglas guía (heurísticas) que ayudan a estructurar el código para reducir la complejidad y los costos de cambio.
+No son leyes absolutas; sacrificarlos puede ser válido en casos especiales, pero de forma consciente.
+Enemigo común: Complejidad (incrementa con el tiempo necesario para entender y cambiar cosas).
+Principios Fundamentales
+
+1. Simplicidad (KISS)
++ KISS (Keep It Simple): Diseñar soluciones claras, directas y fáciles de cambiar.
++ Idea clave: La complejidad tiene costos (tiempo, bugs, y dificultades con refactorización).
++ Qué NO es KISS:
+  - No es reducir líneas de código sin sentido.
+  - No es evitar patrones siempre.
+  - No es crear código sin estructura.
++ Romper KISS:
+  - Abstracciones prematuras, interfaces abstractas innecesarias.
+  - Jerarquías profundas de herencia.
+  - Métodos con demasiados if anidados (“arrow code”).
+  - Evitar la API estándar y reinventar funciones.
+
+Estrategias Prácticas para KISS:
+KISS + YAGNI: No diseñar pensando en necesidades futuras (solo para requerimientos actuales). Ejemplo:
+Hoy: crear una clase concreta basta.
+Mañana: al aparecer otra implementación, se refactoriza.
+Prefiere Composición sobre Herencia: La herencia añade rigidez, mientras que la composición es flexible y modular.
+Usa la API estándar: Ejemplo:
+❌ Iterar manualmente.
+✅ Usar .stream().filter().toList() en Java.
+Retorno temprano: Evita if anidados validando los casos simples o errores al inicio.
+Usa Inmutabilidad/Records: Propiedades inmutables reducen bugs y simplifican el entendimiento.
+Checklist de KISS:
+¿Hay abstracción prematura (YAGNI)?
+¿Hay herencia innecesaria?
+¿Reinvento algo que ya tiene la API estándar?
+¿Hay if anidados evitables?
+¿Puedo promover la inmutabilidad?
+
+2. Cohesión
+Definición: Qué tanto los elementos de una clase/módulo están relacionados entre sí.
+Alta Cohesión:
+Todo dentro de la clase tiene un propósito claro y único.
+Métodos trabajan sobre los mismos datos.
+Cambios locales afectan solo la clase relacionada.
+Baja Cohesión:
+Mezcla de responsabilidades sin propósito común (clases “cajón de sastre”).
+Cambios en un área pueden romper otras.
+Dificulta las pruebas y el mantenimiento.
+Diagnóstico:
+¿El nombre refleja un concepto único? (InvoiceCalculator ✅ vs. Utils ❌).
+¿Qué cambios afectan la clase? Motivos de cambio deben ser similares.
+¿Los métodos comparten un conjunto de datos relacionados?
+Ejemplo:
+Alta cohesión: Una clase InvoiceCalculator, donde todos los métodos calculan aspectos de una factura.
+Baja cohesión: Una clase Utils con métodos que no tienen relación directa entre sí.
+
+3. Acoplamiento
+Definición: Cuánto depende una clase de los detalles de otra.
+Alto Acoplamiento: Cambios en una clase (B) generan errores en otra (A).
+Ejemplo: Dependencia de detalles internos (a.getB().getC().doX()).
+Bajo Acoplamiento: Las clases interactúan a través de interfaces y contratos, no por sus detalles internos.
+Beneficio: Las piezas son intercambiables y modificaciones no rompen el sistema.
+Síntomas de Alto Acoplamiento:
+Demasiado conocimiento sobre la estructura interna de otras clases.
+Un cambio requiere editar múltiples partes del sistema.
+
+4. Principio de Responsabilidad Única (SRP)
+Definición: Cada clase debe tener una sola responsabilidad o razón para cambiar.
+El motivo de cambio suele estar ligado a un actor (persona o área del sistema que lo modifica).
+Síntomas de violación de SRP:
+Métodos que abarcan demasiados dominios.
+Dificultad para ejecutar pruebas unitarias, ya que todo está entrelazado.
+Una clase demasiado larga y llena de utilidades.
+Dividir responsabilidades: Descomponer una clase “Dios” en piezas con roles claros:
+Clase de datos: Solo almacena información básica.
+Clase de lógica: Procesa los datos.
+Clase de presentación: Muestra resultados (GUI o consola).
+Ejemplo:
+Clase Estudiante: Solo gestiona nombre y notas.
+Clase Calculadora: Calcula promedio.
+Clase ReporteConsola: Genera reportes.
+Beneficios de SRP:
+
+Mantenibilidad: Es más sencillo localizar y alterar una funcionalidad.
+Pruebas: Las clases divididas son más fáciles de probar individualmente.
+Reuso: Componentes especializados pueden ser reutilizados en otros sistemas.
+Conexión Entre Principios
+Simplicidad: Reduce pasos, evita “magia”.
+Cohesión: Cada elemento tiene un propósito claro.
+Bajo Acoplamiento: Intercambiar módulos sin miedo.
+SRP: Cambios controlados y localizados.
+Resultado: Un sistema fácil de modificar y escalar, con menos riesgo de errores.
+
+Analogía Final (Casa):
+
+Simplicidad: Pasillos claros, distribución lógica.
+Cohesión: La cocina solo para cocinar, el baño solo para bañarse.
+Bajo Acoplamiento: Cambiar un componente (lámpara) no afecta al techo.
+SRP: Cada habitación tiene un propósito único.

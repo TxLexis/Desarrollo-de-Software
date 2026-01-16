@@ -1,0 +1,24 @@
+Algoritmos de Ordenamieno Complementarios
+
+Tipos:
+1. Ordenamiento por Hundimiento (Sinking Sort)
+2. Ordenamiento Burbuja Optimizado
+3. Selección Lineal con Conteo
+4. Selección Lineal con Intercambio
+
++ Cuando Usar Cada Algoritmo
+1.   Usar: Nunca en producción (Solo con fines educativos)
+     No Usar:
+
+2.   Usar:
+     No Usar:
+
+3.   Usar:
+     No Usar:
+
+4.   Usar:
+     No Usar:
+
+Algortimos de Ordenamiento por División y Conquista:
+5.  Ordenamiento Rápido (Quick Sort)
+6. Ordenamiento por Mezcla (Merge Sort)

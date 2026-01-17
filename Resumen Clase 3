@@ -1,1 +1,86 @@
+### **Principio de Acoplamiento**
 
+#### **Concepto:**
+- El acoplamiento mide el **grado de dependencia** entre módulos de software.
+- **Analogía:** Como un enchufe universal, el bajo acoplamiento facilita la intercambiabilidad sin afectar otras partes.
+
+#### **Importancia del acoplamiento:**
+- **Alto acoplamiento:** Cambios en un módulo afectan directamente a otros, generando:
+  - Cascada de errores.
+  - Dificultad para probar en aislamiento.
+  - Código rígido, frágil y difícil de modificar.
+- **Bajo acoplamiento:** Perks como:
+  - Localización y reducción del alcance de los cambios.
+  - Modularidad, flexibilidad y reutilización.
+
+#### **Tipos de acoplamiento:**
+1. **Acoplamiento de contenido:** (Peor) Acceso directo a estructuras internas de otro módulo.
+2. **Común:** Uso de datos compartidos globales.
+3. **De control:** Control del flujo de otros módulos mediante banderas.
+4. **De datos:** Comunicación intermodular a través de estructuras simples.
+5. **Por interfaz:** (Ideal) Dependencia en abstracciones (interfaces).
+
+#### **Estrategias para reducir el acoplamiento:**
+1. **Inyección de dependencias:** Pasar dependencias desde el exterior.
+2. **Programar contra interfaces:** Depender de abstracciones y no implementaciones concretas.
+3. **Eventos y observadores:** Usar notificaciones en lugar de llamadas directas entre módulos.
+
+#### **Señales de alto acoplamiento (Red Flags):**
+- Excesivos **encadenamientos de llamadas**.
+- **Demasiadas importaciones** concretas.
+- Alto riesgo de **cambios en cascada.**
+- Dificultad para escribir pruebas unitarias.
+
+#### **Métricas del diseño:**
+- Si alterar una clase implica modificar 6+ clases, hay **alto acoplamiento.**
+- El objetivo es **bajo acoplamiento** + **alta cohesión** para lograr sistemas robustos.
+
+---
+
+### **Patrón MVC (Modelo-Vista-Controlador)**
+
+#### **Definición:**
+- **MVC** separa en tres componentes:
+  1. El **Modelo** controla los datos y reglas de negocio.
+  2. La **Vista** muestra la información al usuario y recibe entrada.
+  3. El **Controlador** conecta el Modelo y la Vista, dirigiendo la lógica.
+
+#### **Flujo de datos en MVC:**
+1. El usuario interactúa con la Vista.
+2. El Controlador recibe el evento de la Vista y lo interpreta.
+3. El Controlador actualiza el estado en el Modelo.
+4. La Vista actualiza lo mostrado según las indicaciones del Controlador.
+
+#### **Ventajas de MVC:**
+- **Separación de responsabilidades:** Mejor mantenibilidad y escalabilidad.
+- **Reutilización:** Componentes del Modelo pueden adaptarse a diferentes interfaces (ej. consola, móviles, web).
+- **Paralelismo:** Equipos pueden trabajar en capas separadas sin interferencia.
+
+#### **Reglas clave de diseño MVC:**
+- El **Modelo** no conoce ni depende de Vista/Controlador.
+- La **Vista** interactúa únicamente con el Controlador.
+- El **Controlador** es quien **coordina**.
+
+#### **Errores comunes (anti-patrones):**
+- Mezclar lógica de negocio en la Vista.
+- Utilizar el Modelo para acciones específicas de la interfaz (e.g., `print()` o `Alert` dentro del Modelo).
+- La Vista realizando cálculos complejos.
+
+#### **Relación con principios de diseño:**
+- **SRP (Responsabilidad Única):** Cada componente tiene su propósito bien definido.
+- **Alta cohesión:** Los módulos tienen funciones internas bien delimitadas.
+- **Bajo acoplamiento:** Cambiar la lógica del Modelo no afecta la Vista.
+
+---
+
+### **Reglas esenciales de diseño**
+- **Haz el diseño más simple posible** (KISS): Minimiza complejidad innecesaria.
+- **Respeta SRP:** Una clase o función debe tener una sola responsabilidad.
+- **Ley de Demeter (No te metas en las "tripas" de otros módulos):**
+  - Evita encadenamientos como `a.getB().getC()`.
+- **Interfaces > Clases concretas.**
+
+### **Actividad sugerida:**
+- Revisa un proyecto y encuentra 3 ejemplos de **alto acoplamiento.**
+  - Identifica el tipo (contenido, común, control, datos, o interfaz).
+  - Evalúa los riesgos asociados y propón una refactorización para reducir el acoplamiento.

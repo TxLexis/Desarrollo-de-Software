@@ -1,0 +1,17 @@
+||-----> Programación Orientada a Objetos <-----||
+
++ Motivación:
+  - Software Cambia
+  - Queremos organizar y reducir complejidad
+  - POO modela con: objetos(estado + comportamiento)
+
++ Clase vs Objeto
+
++ Encapsulamieto
+-  Ocultar los detalles internos de implementación y exponer solo lo necesario mediante una interfaz pública.
+
++Responsabilidades y Colaboraciones
+- Buscar Verbos 
+
+
+||-----> Modelado coon UML <-----||

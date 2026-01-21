@@ -1,0 +1,128 @@
+### Resumen: Notaciones de Complejidad (Big-O) y Tiempos de Algoritmos
+
+#### **1. Big-O y su importancia**
+- **¿Qué mide?**: El crecimiento del tiempo o memoria que usa un algoritmo en función del tamaño de la entrada `n`.
+  - Ignora constantes y aspectos específicos de hardware.
+- **¿Qué es `n`?**: Representa el tamaño de la entrada (elementos en listas, nodos en árboles, caracteres en textos).
+
+#### **2. Clasificación de Complejidades**
+- **O(1) - Constante**: El tiempo no depende de `n`. Ejemplo: acceso directo a un índice de un arreglo.
+- **O(log n) - Logarítmica**: Crece lento; cada paso reduce el problema a la mitad. Ejemplo: búsqueda binaria.
+- **O(n) - Lineal**: Tiempo proporcional al tamaño de la entrada. Ejemplo: recorrer una lista.
+- **O(n log n)**: Usada en algoritmos eficientes de ordenamiento como MergeSort.
+- **O(n²) - Cuadrática**: Aparece en bucles anidados. Ejemplo: BubbleSort.
+- **O(2^n) y O(n!) - Exponencial y factorial**: Crecen extremadamente rápido, suelen aparecer en problemas combinatorios.
+
+#### **3. Cálculo de Big-O**
+- **Secuencia**: Se queda con el término dominante. Ejemplo: O(n) + O(n²) → O(n²).
+- **Bucles**: 
+  - Simple: O(n).
+  - Anidado: Multiplicación de niveles. Ejemplo: O(n) * O(n) = O(n²).
+- **Condiciones como `if`**: Se toma el camino más costoso.
+- **Constantes** no se contabilizan. Ejemplo: O(2n) → O(n).
+
+#### **4. Conceptos de Análisis**
+- **Mejor caso**: Escenario más favorable.
+- **Caso promedio**: Esperado en general.
+- **Peor caso**: Escenario más desfavorable (muy usado para garantías).
+
+---
+
+### Resumen: Estructuras de Datos y Algoritmos (Arreglos y Ordenamientos)
+
+#### **1. Arreglos Unidimensionales (Arrays 1D)**
+- **Definición**: Estructura de datos que almacena elementos en memoria contigua.
+  - Tamaño fijo.
+  - Acceso por índice: O(1).
+- **Operaciones**:
+  - Insertar al final: O(1).
+  - Insertar en posición arbitraria: O(n).
+  - Eliminar en posición específica: O(n).
+- **Errores comunes**:
+  - Índice fuera de rango.
+  - Límites incorrectos en los ciclos.
+
+#### **2. Arreglos Bidimensionales (Matrices)**
+- **Definición**: Estructura tabular (filas y columnas).
+- **Recorridos**:
+  - Por filas, por columnas, diagonal principal.
+- **Errores comunes**:
+  - Confundir filas y columnas.
+  - Límites incorrectos en ciclos anidados.
+
+#### **3. Algoritmos de Ordenamiento**
+- **Bubble Sort (Ordenamiento Burbuja)**:
+  - Ideal para listas pequeñas o casi ordenadas.
+  - Mejor caso: O(n). Peor caso: O(n²).
+- **Alternativas mejores**: QuickSort, MergeSort (O(n log n)).
+
+---
+
+### Resumen: Algoritmos de Búsqueda
+
+#### **1. Búsqueda Lineal**
+- Recorre elemento por elemento.
+- **Complejidad**:
+  - Mejor caso: O(1).
+  - Promedio/peor caso: O(n).
+- **Ventajas**: Funciona con arreglos no ordenados.
+
+#### **2. Búsqueda Binaria**
+- Divide el espacio en mitades. Requiere que el arreglo esté previamente ordenado.
+- **Complejidad**:
+  - Mejor caso: O(1).
+  - Caso promedio/peor caso: O(log n).
+- **Ventajas**: Muy rápida para datos grandes.
+
+---
+
+### Resumen: Manipulación de Cadenas de Caracteres (Strings)
+
+#### **Operaciones Comunes**
+- **Longitud**: `.length()`.
+- **Subcadenas**: `.substring(inicio, fin)`.
+- **Concatenar**: `cadena1 + cadena2`.
+- **Buscar/Reemplazar**: `.indexOf(buscar)`, `.replace(viejo, nuevo)`.
+- **Eliminación de espacios**: `.trim()`, `.stripLeading()`.
+
+#### **Errores comunes**
+- Mutabilidad no intencional (usar StringBuilder para modificaciones iterativas).
+- Índices fuera de rango.
+
+---
+
+### Resumen: Análisis de Rendimiento y Selección de Algoritmos
+
+#### **1. Resultados Empíricos**
+- Algoritmos O(n²) como Bubble Sort se vuelven lentos rápidamente para `n` grande.
+  - Ejemplo: Bubble Sort para 10,000 elementos puede tomar > 1,850 ms.
+- Búsqueda binaria mantiene consistencia (~1 ms), independiente de `n`.
+
+#### **2. Criterios de Evaluación**
+- **Tamaño de datos**:
+  - Pequeño (< 100): Prioriza simplicidad.
+  - Grande (> 10,000): Priorización de eficiencia.
+- **Frecuencia**:
+  - Búsquedas frecuentes → Ordenar + búsqueda binaria.
+  - Búsqueda única → Lineal suficiente.
+- **Datos casi ordenados**: Bubble Sort optimizado.
+
+#### **3. Diseño de Casos de Prueba**
+Cobertura de:
+- Arreglos vacíos, con un único elemento, elementos duplicados.
+- Casos extremos (límite superior del tamaño, valores grandes).
+
+---
+
+### Resumen Final
+1. **Big-O** evalúa el rendimiento al crecer el tamaño `n`. Controla el crecimiento de algoritmos.
+2. **Estructuras de Datos**:
+   - Arrays 1D/2D soportan acceso eficiente si están organizados.
+   - Los retos surgen en inserciones o búsquedas según la estructura.
+3. **Algoritmos**:
+   - Ordenamientos básicos (p. ej., burbuja) son prioritarios para listas pequeñas.
+   - Para listas grandes y ordenamientos frecuentes: usar MergeSort o QuickSort.
+4. **Búsquedas**:
+   - Búsqueda lineal para listas pequeñas/no ordenadas.
+   - Búsqueda binaria para listas ordenadas (gran eficiencia con datos grandes).
+5. **Práctica**: Diseñar pruebas considerando variedad de escenarios.

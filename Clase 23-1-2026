@@ -1,0 +1,101 @@
+--------> Interfaces y Clases Abstractas <--------
+
++ ¿Qué es una interfaz?
+- Contrato: qué debe hacer una clase.
+- Características:
+  - Una clase puede implementar múltiples interfaces.
+  - Útil para desacoplamiento y pruebas.
+
++ Desacoplamiento
+- Programar contra la abstracción.
+
++ ¿Qué son Clases abstractas?
+- No se puede instanciar directamente.
+- Puede tener métodos abstractos y concretos.
+- Puede tener estado (atributos).
+
++ ¿Interfaz o abstracta?
+- Interfaz: contrato, sin estado compartido, máximo desacoplamiento.
+- Abstracta: compartir código + estado, herencia simple, relación estable.
+
+
+--------> Anti-patrones y calidad del diseño <--------
+
++ Anti-patrones (idea)
+  + Señales de alerta
+  - Diseño “funciona”, pero es difícil de cambiar
+  - Aumenta el costo de mantenimiento
+  - Baja testabilidad
+
++ Anti-patrón 1
+  + Clase “Dios” +
+  - Una clase hace “todo”
+  - Rompe cohesión y SRP
+  - Crece sin control
+
+  + Cómo arreglarla (idea)
+  - Separar por responsabilidad
+
+
++ Anti-patrón 2
+  + Modelo anémico + 
+  - Clases con datos + getters/setters
+  - La lógica vive “afuera”
+  - El objeto no protege reglas
+
+  + Síntoma clave
+  - “Las reglas no están donde viven los datos”
+  - ServicioPedidos decide estados
+  - Pedido permite estados inválidos
+  - Difícil asegurar invariantes
+
+  + Solución (idea)
+  - Modelo rico en comportamiento
+  - Métodos de negocio: procesar(), completar()
+  - Validaciones internas
+  - Estados con enum
+
+
++ Anti-patrón 3
+  + Herencia innecesaria +
+  - Herencia para “reusar campos”
+  - Jerarquía rígida
+  - No combina bien variaciones
+
+  + Solución (idea)
+  - Preferir composición
+  - Empleado tiene-un ContactoInfo
+  - El contacto puede tener email, teléfono o ambos
+
+
++ Herencia vs composición
+- Herencia si hay “es-un” real y jerarquía estable
+- Composición si se busca flexibilidad y evitar jerarquías profundas
+- Regla de oro: si dudas, composición
+
+
+--------> Creación de librerías reutilizables <--------
+
++ ¿Qué es una librería?
+- Conjunto de clases e interfaces empaquetadas
+- Resuelve un problema específico
+- Se reutiliza en múltiples proyectos
+
++ Señales de una “buena” librería
+- API clara y mínima
+- Documentación completa
+- Pruebas
+- Versionado semántico
+
++ Idea clave
+- Separar “público” vs “detalle”
+- Interfaz: lo que el resto del proyecto depende
+- Implementaciones: lo que puede cambiar sin romper usuarios
+
+
+
+
+
+
+
+

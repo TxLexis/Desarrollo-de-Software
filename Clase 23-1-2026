@@ -123,14 +123,50 @@
   - group y version
 
 
+--------> Sobrecarga y Encadenamiento de Métodos <--------
 
++ Polimorfismo estático
+  + Sobrecarga de métodos
+  - Mismo nombre
+  - Diferentes parámetros
+  - Se resuelve en compilación
 
++ ¿Cuándo usar sobrecarga?
+- Misma intención (misma “acción”)
+- Cambio solo en tipos o cantidad de parámetros
+- Evitar “semánticas distintas” con el mismo nombre
 
+  + Riesgo 1: Semánticas distintas
+    void log(String msg);
+    void log(String msg, int level);
+    void log(String msg, String level);
+  - Fácil llamar “mal” y no darse cuenta
+  - API difícil de aprender / mantener
+  
+  + Riesgo 2: Ambigüedad (mental)
+  - Lectura del código
+  - Si un método “parece otro”, el uso se vuelve error-prone
+  - Preferir nombres explícitos cuando cambia la intención
 
++ Encadenamiento de métodos
+  + Method chaining
+  - Patrón: métodos retornan this para permitir llamadas encadenadas.
 
+  + Ventaja
+  - Código más legible
+  - “Casi” lenguaje natural
 
+  + Riesgos del chaining (nivel 1)
+  - Si no hay validación → se crean estados inválidos
+  - Si el orden importa → API frágil
 
+  + Regla práctica (segura)
+    + “Chaining + invariantes”
+    - Validar en cada setter fluido o
+    - Validar al final con build() (idea de Builder)
 
-
-
-
++ Sobrecarga + Chaining juntos
+  + Diseñar APIs “amigables”
+  - Sobrecarga: conveniencia (pocas variantes)
+  - Chaining: legibilidad (configuración)
+  - Prioridad: claridad > cleverness

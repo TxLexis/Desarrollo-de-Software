@@ -1,0 +1,117 @@
+### Resumen de "Algoritmos de Ordenamiento Complementarios"
+#### 1. **Ordenamiento por Hundimiento (Sinking Sort)**
+- **Descripción**: El elemento más pequeño "se hunde" hasta su posición correcta comparando repetidamente con otros elementos del arreglo.
+- **Complejidad**:
+  - Temporal: O(n²) en todos los casos
+  - Espacial: O(1)
+- **Ventajas**:
+  - Fácil de implementar y entender
+- **Desventajas**:
+  - Muy ineficiente (O(n²)), muchas comparaciones innecesarias, no estable.
+
+---
+
+#### 2. **Ordenamiento Burbuja Optimizado (Optimized Bubble Sort)**
+- **Descripción**: Variante de Bubble Sort que incorpora un mecanismo para detener el proceso si el arreglo ya está ordenado.
+- **Complejidad**:
+  - Mejor caso: O(n) (cuando ya está ordenado)
+  - Peor caso: O(n²)
+  - Espacial: O(1)
+- **Ventajas**:
+  - Detección temprana de orden ya establecido
+  - Código simple y mantiene estabilidad
+- **Desventajas**:
+  - Ineficiente para grandes conjuntos de datos
+  - Sigue siendo O(n²) en el peor caso.
+
+---
+
+#### 3. **Selección Lineal con Conteo (Linear Selection Sort with Counting)**
+- **Descripción**: Encuentra el menor elemento en cada iteración y lo coloca en la posición correcta, manteniendo un índice mínimo.
+- **Complejidad**:
+  - Temporal: O(n²) en todos los casos
+  - Espacial: O(1)
+- **Características**:
+  - Menos intercambios que Bubble Sort
+  - In-place pero no estable.
+- **Desventajas**:
+  - Comparaciones innecesarias incluso en arreglos ordenados o pequeños conjuntos de datos.
+
+---
+
+#### 4. **Selección Lineal con Intercambio (Linear Selection Sort with Swapping)**
+- **Descripción**: Simular a la variante con conteo; los intercambios se realizan inmediatamente tras identificar el menor elemento.
+- **Diferencias**: Similar a la selección tradicional; implementación prácticamente idéntica.
+- **Características**:
+  - O(n²) y no estable
+  - Code simplicity es su mayor ventaja.
+
+---
+
+### Comparación Algoritmos de Complejidad Media
+| **Algoritmo**    | **Mejor Caso** | **Caso Promedio** | **Peor Caso** | **Espacio** | **Estable** | **In-place** |
+|-------------------|----------------|-------------------|---------------|-------------|-------------|--------------|
+| Sinking Sort      | O(n²)         | O(n²)            | O(n²)        | O(1)        | No          | Sí           |
+| Bubble Sort       | O(n²)         | O(n²)            | O(n²)        | O(1)        | Sí          | Sí           |
+| *Optimized Bubble*| **O(n)**      | O(n²)            | O(n²)        | O(1)        | Sí          | Sí           |
+| Selection (ambos) | O(n²)         | O(n²)            | O(n²)        | O(1)        | No          | Sí           |
+
+---
+
+### Algoritmos por División y Conquista
+
+#### 5. **Quick Sort**
+- **Descripción**: Divide el arreglo en elementos menores y mayores al pivote, aplicado recursivamente.
+- **Complejidad**:
+  - Mejor caso: O(n log n)
+  - Promedio: O(n log n)
+  - Peor caso: O(n²) (si pivote es el peor posible)
+  - Espacial: O(log n) (por la recursión)
+- **Ventajas**:
+  - Eficiente en promedio y bajo memoria (in-place)
+  - Buena performance práctica.
+- **Desventajas**:
+  - Peor caso sensible al pivote
+  - No es estable.
+- **Cuándo Usar**:
+  - Cuando memoria es limitada, estabilidad no es requerida, o los datos están en memoria.
+
+---
+
+#### 6. **Merge Sort**
+- **Descripción**: Divide el arreglo en mitades, las ordena recursivamente y las combina.
+- **Complejidad**:
+  - Mejor/Promedio/Peor: O(n log n)
+  - Espacial: O(n) (requiere estructura auxiliar)
+  - Estabilidad: Sí
+- **Ventajas**:
+  - Rendimiento predecible, estable, ideal para datos externos.
+- **Desventajas**:
+  - Mayor consumo de memoria
+  - Más lento que QuickSort para datos en RAM.
+- **Cuándo Usar**:
+  - Si estabilidad es crítica o se trabaja en almacenamiento externo.
+
+---
+
+### Comparación: Quick Sort vs Merge Sort
+| **Característica** | **Quick Sort**     | **Merge Sort**     |
+|---------------------|--------------------|--------------------|
+| Complejidad promedio| O(n log n)        | O(n log n)         |
+| Peor caso          | O(n²)             | O(n log n)         |
+| Espacio            | O(log n)          | O(n)               |
+| Estabilidad        | No                | Sí                 |
+| In-place           | Sí                | No                 |
+| Velocidad práctica | Más rápido         | Más lento          |
+| Predecibilidad     | Variable          | Constante          |
+| Paralelización     | Difícil           | Fácil              |
+
+---
+
+### Resumen de Aplicaciones Recomendadas
+
+1. **Sinking Sort**: Nunca usar en producción.
+2. **Optimized Bubble Sort**: Para conjuntos pequeños o arreglos casi ordenados donde la estabilidad es importante.
+3. **Selection Sort**: Para minimizar intercambios en conjuntos pequeños (no estable).
+4. **Quick Sort**: Si el rendimiento promedio es clave y el conjunto está contenido en memoria.
+5. **Merge Sort**: Cuando la estabilidad sea crítica o se trabaje en almacenamiento externo.

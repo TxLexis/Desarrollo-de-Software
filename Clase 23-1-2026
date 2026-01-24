@@ -93,6 +93,41 @@
 - Implementaciones: lo que puede cambiar sin romper usuarios
 
 
++ API mínima
+- Contrato público (interfaz)
+  public interface Validador {
+    boolean esValido(String entrada);
+    String mensajeError();
+  }
+
++ Reglas para “API mínima”
+- Menos métodos, mejor (pero suficientes)
+- Evitar exponer detalles (regex, libs internas, etc.)
+- Nombres que indiquen intención
+
++ Documentación (Javadoc)
+  + Qué debe incluir
+  - Qué hace la clase
+  - Restricciones importantes
+  - Ejemplo corto de uso
+  - Versión (@since)
+
++ Pruebas (JUnit)
+- Probar la librería sin UI, sin “main”
+- Casos: válido, inválido, borde, nulo
+
++ Empaquetar como JAR (Gradle)
+  + build.gradle (mínimo)
+  - Plugin java-library
+  - Dependencias de test
+  - group y version
+
+
+
+
+
+
+
 
 
 

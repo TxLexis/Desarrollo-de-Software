@@ -1,16 +1,101 @@
-# Resumen: Programación Orientada a Objetos (POO)
-
-## **Descripción del Repositorio**
-Este repositorio (**"Desarrollo-de-Software"**) contiene recursos relacionados con teoría y prácticas del curso "Teoría - Prácticas".
+# Resumen de Programación Orientada a Objetos (POO)
 
 ---
 
-## **Información del Resumen**
+## **Programación Orientada a Objetos (POO)**
+**Definición**: Paradigma que modela el software como una colección de objetos, donde los objetos encapsulan datos (atributos) y comportamiento (métodos). El objetivo es reflejar conceptos del mundo real para hacer el código más comprensible, extensible y mantenible.
 
-### **Definición**: La POO es un paradigma que permite modelar software y representar al mundo real a través de "objetos". Estos encapsulan datos (atributos) y métodos (comportamiento).
+---
 
-### **Conceptos Fundamentales**
-1. **Clase**: Un molde o estructura genérica. Ejemplo: Definir "CuentaBancaria".
-2. **Objeto**: Ejecución concreta del molde/desarrollado relativo. Ejemplo: Mi cuenta bancaria con saldo actual.
+## **Conceptos Fundamentales**
+### **Clase vs Objeto**
+- **Clase**: El molde que define estructura y comportamiento.
+- **Objeto**: Una instancia concreta de una clase.
 
-### **Información adicional para Revisión cuenta/Detallada revisa Anti-Herencias.---Mencionados+48principio.
+### **Encapsulamiento**
+- Esconder los datos internos y exponer solo lo necesario mediante métodos públicos.
+- Mantiene los datos consistentes con reglas de validación.
+
+### **Constructores**
+- Métodos especiales que inicializan el estado de un objeto al momento de su creación.
+
+### **Relaciones en POO**
+- **Asociación**: Una clase usa o se relaciona con otra (por referencia).
+- **Composición**: Relación fuerte donde los componentes dependen del contenedor.
+- **Agregación**: Relación débil donde el componente puede existir de forma independiente.
+
+---
+
+## **Herencia y Polimorfismo**
+### **Herencia**
+- Permite una relación de "es-un".
+- **Superclase**: Clase base con propiedades comunes.
+- **Subclase**: Extiende la superclase y especializa su comportamiento.
+
+### **Polimorfismo**
+- **Dinámico**: Un método se ejecuta según el objeto real referenciado, no el tipo declarado (sobrescritura).
+- **Estático**: Métodos sobrecargados con el mismo nombre, pero diferente firma.
+
+---
+
+## **UML (Unified Modeling Language)**
+- Es un lenguaje visual que facilita el modelado del diseño antes de codificar.
+- **Caja de clase UML**:
+```text
+┌───────────────┐
+│ NombreClase   │
+├───────────────┤
+│ - atributo: T │
+│ + metodo(P): R│
+└───────────────┘
+```
+  - `+` = público, `-` = privado, `#` = protegido.
+
+---
+
+## **Interfaces y Clases Abstractas**
+### **Interfaz**
+- Contrato que define "qué" debe hacer una clase, pero no especifica "cómo".
+- Permite implementar múltiples comportamientos sin estado compartido.
+
+### **Clase Abstracta**
+- Puede tener atributos y métodos implementados.
+- Ideal para herencia simple y compartir código entre subclases.
+
+### **¿Cuándo usar qué?**
+- **Interfaz**: Cuando buscas desacoplamiento y múltiples implementaciones.
+- **Clase abstracta**: Cuando hay estado y comportamiento compartido, y una relación fuerte de herencia.
+
+---
+
+## **Buenas Prácticas y Errores Comunes**
+### **Buenas Prácticas**
+- Diseñar clases con un propósito claro (alta cohesión).
+- Utilizar el principio de "encapsulamiento".
+- Priorizar composición sobre herencia cuando sea posible.
+- Modelar relaciones utilizando diagramas UML antes de codificar.
+
+### **Errores Comunes**
+- Clases "Dios" que hacen demasiado.
+- Objetos anémicos que solo tienen getters/setters (sin comportamiento).
+- Uso excesivo e innecesario de herencia.
+- Métodos o clases con más de una responsabilidad (violación de SRP).
+
+---
+
+## **Resumen Visual de Pilares de POO**
+1. **Clase y Objeto**: Molde e instancia.
+2. **Encapsulamiento**: Resguardar datos y exponer solo lo necesario.
+3. **Herencia**: Reutilización basada en relación "es-un".
+4. **Polimorfismo**: Unificación de métodos para varios tipos.
+5. **Interfaces**: Contratos para interacciones desacopladas.
+6. **Composición vs Herencia**: Preferir ensamblar comportamiento antes que crear jerarquías profundas.
+
+---
+
+## **Principios de Diseño**
+- Mantén clases pequeñas, con un único propósito.
+- Escribe código que sea extensible sin modificarlo directamente (Principio Open/Closed).
+- Desacopla clases usando interfaces para facilitar pruebas unitarias.
+- Define invariantes: Reglas internas que aseguren que el estado del objeto sea válido.
+- Reduce acoplamiento y favorece la sostenibilidad del código.

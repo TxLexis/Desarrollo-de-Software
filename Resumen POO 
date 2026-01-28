@@ -1,0 +1,100 @@
+"""
+Resumen de los temas avanzados en Programación Orientada a Objetos (POO):
+
+---
+
+## Anti-patrones y Calidad del Diseño
+
+### 1. Anti-patrones comunes
+1. **Clase “Dios”**:
+   - Es una clase que asume demasiadas responsabilidades, violando cohesión y el Principio de Responsabilidad Única (SRP).
+   - Solución: Dividir en clases más pequeñas con responsabilidades específicas.
+
+2. **Modelo Anémico**:
+   - Clases que solo tienen datos (getters/setters) pero no comportamiento. La lógica vive afuera, lo que dificulta mantener invariantes.
+   - Solución: Enriquecer el modelo con métodos que representen comportamientos (`procesar()`, `completar()`).
+
+3. **Herencia innecesaria**:
+   - Jerarquías rígidas usadas para “reutilizar código”.
+   - Solución: Preferir composición (`Empleado tiene ContactoInfo`) para mayor flexibilidad.
+
+---
+
+## Creación de Librerías Reutilizables
+
+### Características de una buena librería:
+- API clara y mínima.
+- Documentación completa (Javadoc).
+- Cobertura de pruebas (JUnit).
+- Versionado semántico.
+
+### Pasos para crear una librería:
+1. Diseñar la API mínima (Interfaces/contratos públicos).
+2. Implementar y documentar.
+3. Escribir pruebas unitarias para validar comportamientos.
+4. Empaquetar como JAR con herramientas como Gradle.
+
+---
+
+## Sobrecarga y Encadenamiento de Métodos
+
+### 1. Sobrecarga de Métodos:
+- Mismo nombre, diferentes parámetros.
+- Usar solo cuando las variantes tienen la misma intención, evitando API ambigua o confusa.
+
+### 2. Encadenamiento de Métodos (Method Chaining):
+- Permitir configurar objetos fluentemente retornando `this` en cada método.
+- Ventaja: Código más expresivo y legible.
+- Cuidado: Debe garantizar estado válido (usando validaciones o patrones como `Builder`).
+
+---
+
+## Criterios de Evaluación de Diseño
+
+### Checklist para evaluar un diseño:
+1. **Cohesión**: ¿Cada clase tiene un propósito claro?
+2. **Acoplamiento**: ¿Depende solo de lo necesario?
+3. **Extensibilidad**: ¿Puedo agregar funcionalidad sin modificar código preexistente?
+4. **Testabilidad**: ¿Se puede probar de forma aislada?
+5. **Claridad**: ¿Los nombres y métodos son comprensibles?
+
+---
+
+## Diseño Incremental
+
+### Pasos clave:
+1. **Definir el dominio**:
+   - Identificar clases candidatas, métodos y reglas.
+2. **Prototipo básico**:
+   - Crear UML mínimo con conceptos esenciales.
+3. **Implementar por incrementos**:
+   - Priorizar funcionalidades mínimas y crear pruebas desde el inicio.
+4. **Iterar, probar y refactorizar**:
+   - Asegurar que los cambios no rompan el diseño existente.
+
+---
+
+## Programación Genérica en Java (Generics)
+
+### ¿Qué son los Generics?
+- Permiten crear clases, interfaces y métodos que trabajen con diferentes tipos.
+- Beneficios:
+ 1. **Seguridad de tipos**: Errores detectados en compilación.
+ 2. **Eliminación de castings**: Menos necesidad de conversión explícita.
+ 3. **Reutilización**: Código más flexible.
+
+### Comodines (`?`):
+1. **`<?>`**: Acepta cualquier tipo.
+2. **`<? extends T>`**: Acepta `T` o sus subclases (lectura segura).
+3. **`<? super T>`**: Acepta `T` o sus superclases (escritura segura).
+
+### Type Erasure:
+- Los genéricos existen **solo en compilación** y se convierten a tipos estándar (`Object`) durante la ejecución para mantener compatibilidad hacia atrás.
+
+---
+
+Resultado esperado:
+- Un diseño claro y modular.
+- Facilidad para extender y mantener en el futuro.
+- Código válido, reusable y testeado.
+"""

@@ -1,1 +1,16 @@
-Content of the file goes here.
+# Resumen: Programación Orientada a Objetos (POO)
+
+## **Descripción del Repositorio**
+Este repositorio (**"Desarrollo-de-Software"**) contiene recursos relacionados con teoría y prácticas del curso "Teoría - Prácticas".
+
+---
+
+## **Información del Resumen**
+
+### **Definición**: La POO es un paradigma que permite modelar software y representar al mundo real a través de "objetos". Estos encapsulan datos (atributos) y métodos (comportamiento).
+
+### **Conceptos Fundamentales**
+1. **Clase**: Un molde o estructura genérica. Ejemplo: Definir "CuentaBancaria".
+2. **Objeto**: Ejecución concreta del molde/desarrollado relativo. Ejemplo: Mi cuenta bancaria con saldo actual.
+
+### **Información adicional para Revisión cuenta/Detallada revisa Anti-Herencias.---Mencionados+48principio.

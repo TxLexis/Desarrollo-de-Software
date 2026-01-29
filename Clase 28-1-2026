@@ -1,0 +1,27 @@
+-------------------> Manejo de Memoria en Java: JVM, Stack, Heap y String Pool <-------------------
+
++ Tipos de valores en Java
+- Primitivos: boolean, byte, char, short, int, long, float, double
+- Objetos: Object, Long, Exception, clases propias, etc.
+- String: clase especial (se tratará con String Pool más adelante)
+
++ Distribución de la memoria (vista conceptual)
+- En ejecución, distinguimos principalmente:
+  - Java Heap Space
+  - Java Stack Memory
+
++ Heap Space (características)
+- Es creado por la JVM.
+- Usado por el runtime para colocar objetos y clases del JRE.
+- El Garbage Collector corre sobre el heap para recolectar objetos sin referencias.
+- Un objeto en heap puede ser referenciado desde cualquier lugar de la aplicación (según alcance de la referencia).
+
++ Stack Memory (características)
+- Solo el método (frame actual) tiene acceso directo a estos valores.
+- Contiene valores de vida corta: variables locales primitivas y referencias.
+- Trabaja en orden LIFO.
+- Cuando se invoca un método, se agrega un nuevo frame al stack con:
+  - primitivos locales
+  - referencias a objetos en heap usados por ese método
+
+

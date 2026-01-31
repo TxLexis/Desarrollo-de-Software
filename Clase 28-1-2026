@@ -25,3 +25,11 @@
   - referencias a objetos en heap usados por ese método
 
 
+-------------------> Estructuras estáticas y arreglos en Java <-------------------
+
++ Definición formal: estructura estática
+- Una estructura estática es aquella cuyo tamaño (capacidad) se define al momento de crearse y no cambia durante su vida útil.
+- En Java, el ejemplo clásico es el arreglo (T[]).
+
+
+-------------------> Estructuras estáticas y arreglos en Java <-------------------

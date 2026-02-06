@@ -1,0 +1,2 @@
+Alexander,0,1,0
+Bryan,1,0,0

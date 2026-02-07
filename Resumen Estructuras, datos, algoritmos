@@ -1,1 +1,182 @@
+# Resumen: Estructuras de Datos y Algoritmos
 
+Aquí tienes un resumen consolidado de los conceptos clave de los materiales proporcionados:
+
+---
+
+## 📊 **Estructuras de Datos Fundamentales**
+
+### **Arreglos Unidimensionales (1D)**
+- Colección de elementos del mismo tipo en posiciones contiguas
+- Acceso directo por índice: **O(1)**
+- Operaciones:
+  - **Insertar al final**: O(1)
+  - **Insertar en posición específica**: O(n)
+  - **Eliminar**: O(n)
+  - **Acceder/Modificar**: O(1)
+
+### **Arreglos Bidimensionales (2D)**
+- Estructura matricial (filas × columnas)
+- Acceso: `matriz[fila][columna]`
+- Recorridos comunes:
+  - Por filas, por columnas, diagonal
+- Útil para: tablas, tableros de juego, imágenes
+
+---
+
+## 🔍 **Algoritmos de Búsqueda**
+
+### **Búsqueda Lineal**
+- Recorre secuencialmente cada elemento
+- **No requiere datos ordenados**
+- Complejidad:
+  - Mejor caso: O(1)
+  - Promedio/Peor: O(n)
+
+### **Búsqueda Binaria**
+- Divide el espacio de búsqueda a la mitad repetidamente
+- **Requiere datos ordenados**
+- Complejidad: **O(log n)** en todos los casos
+- Mucho más eficiente para conjuntos grandes
+
+---
+
+## 🔄 **Algoritmos de Ordenamiento**
+
+### **Algoritmos Básicos - O(n²)**
+
+| Algoritmo | Mejor Caso | Promedio | Peor Caso | Estable | In-Place |
+|-----------|------------|----------|-----------|---------|----------|
+| **Bubble Sort** | O(n²) | O(n²) | O(n²) | ✅ Sí | ✅ Sí |
+| **Bubble Sort Optimizado** | O(n) | O(n²) | O(n²) | ✅ Sí | ✅ Sí |
+| **Selection Sort** | O(n²) | O(n²) | O(n²) | ❌ No | ✅ Sí |
+| **Sinking Sort** | O(n²) | O(n²) | O(n²) | ❌ No | ✅ Sí |
+
+**Usar cuando:** Conjuntos pequeños (< 50 elementos), simplicidad es prioridad
+
+---
+
+### **Algoritmos Eficientes - O(n log n)**
+
+#### **Quick Sort**
+- Estrategia: Dividir y conquistar
+- Selecciona pivote, particiona, ordena recursivamente
+- **Complejidad:**
+  - Mejor/Promedio: **O(n log n)**
+  - Peor caso: O(n²) (pivote mal elegido)
+- **Espacio:** O(log n)
+- **In-place:** ✅ Sí | **Estable:** ❌ No
+- **Ventajas:** Muy rápido en práctica, eficiente en memoria
+- **Desventajas:** No estable, peor caso cuadrático
+
+#### **Merge Sort**
+- Estrategia: Dividir y conquistar
+- Divide en mitades, ordena, combina
+- **Complejidad:** **O(n log n)** en todos los casos
+- **Espacio:** O(n)
+- **In-place:** ❌ No | **Estable:** ✅ Sí
+- **Ventajas:** Predecible, estable, paralelizable
+- **Desventajas:** Requiere memoria adicional
+
+---
+
+## 🔤 **Manipulación de Cadenas (Strings)**
+
+### **Operaciones Comunes**
+- **Longitud:** `length()`
+- **Acceso:** `charAt(i)` - O(1)
+- **Concatenación:** `+` o `concat()`
+- **Subcadenas:** `substring(inicio, fin)`
+- **Búsqueda:** `indexOf()`, `contains()`
+- **Reemplazo:** `replace(viejo, nuevo)`
+- **División:** `split(delimitador)`
+- **Conversión de caso:** `toUpperCase()`, `toLowerCase()`
+- **Limpieza:** `trim()`
+
+### **Técnicas de Parsing**
+- Extracción de datos separados por delimitadores
+- Validación de formatos (email, contraseñas)
+- Extracción de números de texto
+- Formateo e interpolación
+
+---
+
+## 📈 **Notación Big-O - Crecimiento de Complejidad**
+
+**De mejor a peor:**
+
+1. **O(1)** - Constante: acceso a arreglo, asignación
+2. **O(log n)** - Logarítmica: búsqueda binaria
+3. **O(n)** - Lineal: recorrer un arreglo
+4. **O(n log n)** - Lineal-logarítmica: Merge Sort, Quick Sort
+5. **O(n²)** - Cuadrática: Bubble Sort, dobles bucles
+6. **O(2ⁿ)** - Exponencial: combinaciones, fuerza bruta
+7. **O(n!)** - Factorial: permutaciones
+
+### **Reglas de Cálculo**
+- **Secuencia:** O(f + g) → tomar el término dominante
+- **Bucles anidados:** multiplicar complejidades
+- **Condiciones:** tomar el peor camino
+- **Constantes:** se ignoran (O(5n) → O(n))
+
+---
+
+## ⚠️ **Errores Comunes**
+
+1. **Off-by-one:** Usar `i <= n` en lugar de `i <= n-1`
+2. **Índices fuera de rango:** No validar límites
+3. **Confundir fila/columna** en matrices 2D
+4. **Mutación no intencional** de arreglos originales
+5. **Búsqueda binaria en datos no ordenados**
+6. **Comparación de strings sin considerar mayúsculas**
+
+---
+
+## 🎯 **Guía de Selección de Algoritmos**
+
+### **¿Qué algoritmo usar?**
+
+| Escenario | Recomendación |
+|-----------|---------------|
+| Datos pequeños (< 100) no ordenados | Búsqueda Lineal |
+| Datos grandes, búsquedas frecuentes | Ordenar + Búsqueda Binaria |
+| Ordenar datos pequeños | Bubble Sort Optimizado |
+| Ordenar datos grandes | **Quick Sort** o **Merge Sort** |
+| Necesitas estabilidad | Merge Sort |
+| Memoria limitada | Quick Sort (in-place) |
+| Peor caso O(n²) inaceptable | Merge Sort |
+| Datos casi ordenados | Bubble Sort Optimizado |
+
+---
+
+## 💡 **Consejos Prácticos**
+
+✅ **Buenas Prácticas:**
+- Validar siempre los límites de índices
+- Usar nombres descriptivos de variables
+- Comentar lógica compleja
+- Diseñar casos de prueba (normales, borde, extremos)
+- Elegir algoritmo según tamaño de datos
+
+❌ **Evitar:**
+- Usar algoritmos O(n²) para datos grandes (> 1000)
+- Búsqueda binaria en datos no ordenados
+- Modificar arreglos sin copiarlos cuando sea necesario
+- Ignorar la estabilidad cuando sea importante
+
+---
+
+## 📚 **Casos de Prueba Esenciales**
+
+Siempre probar con:
+- **Arreglo vacío** (n = 0)
+- **Un solo elemento** (n = 1)
+- **Dos elementos**
+- **Datos ya ordenados**
+- **Datos en orden inverso**
+- **Elementos duplicados**
+- **Elemento no encontrado** (búsquedas)
+
+---
+
+Este resumen cubre los conceptos fundamentales que necesitas dominar para trabajar eficientemente con estructuras de datos y algoritmos. ¿Necesitas profundizar en algún tema específico?

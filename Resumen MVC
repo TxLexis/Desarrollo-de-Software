@@ -1,1 +1,340 @@
+# Resumen: Patrón MVC (Modelo-Vista-Controlador)
 
+---
+
+## 🎯 **¿Qué es MVC?**
+
+**MVC** es un **patrón de arquitectura de software** que separa una aplicación en tres componentes independientes para lograr **separación de responsabilidades**.
+
+**Objetivo:** Hacer el código más escalable, mantenible y reutilizable.
+
+---
+
+## 🧩 **Los Tres Componentes de MVC**
+
+### **1. Modelo (Model)**
+- **Responsabilidad:** Gestionar los datos y la lógica de negocio
+- **Función:** 
+  - Guarda, recupera y valida datos
+  - Gestiona el estado de la aplicación
+- **NO debe:**
+  - Contener `print()`, `input()`, `alert()`
+  - Saber nada sobre la interfaz de usuario
+- **Ejemplo:** Clase `Tarea`, `Usuario`, `Producto` con sus operaciones CRUD
+
+### **2. Vista (View)**
+- **Responsabilidad:** Interfaz de usuario
+- **Función:**
+  - Mostrar datos al usuario
+  - Capturar entradas del usuario (teclado, clics, formularios)
+- **NO debe:**
+  - Hacer cálculos matemáticos
+  - Tomar decisiones de negocio
+  - Guardar datos directamente
+- **Ejemplo:** Consola, interfaz web, app móvil
+
+### **3. Controlador (Controller)**
+- **Responsabilidad:** Intermediario entre Modelo y Vista
+- **Función:**
+  - Recibe eventos de la Vista
+  - Llama métodos del Modelo
+  - Actualiza la Vista con respuestas
+- **NO debe:**
+  - Contener lógica de negocio compleja
+  - Mostrar datos directamente (`print()`)
+- **Ejemplo:** `TareaController`, `UsuarioController`
+
+---
+
+## 🔄 **Flujo de Datos en MVC**
+
+```
+Usuario → Vista → Controlador → Modelo
+                      ↓
+                   Modelo actualiza estado
+                      ↓
+         Controlador ← Modelo
+                      ↓
+                   Vista ← Controlador
+                      ↓
+                   Usuario ve resultado
+```
+
+**Ejemplo concreto:**
+1. Usuario hace clic en "Agregar Tarea" (**Vista**)
+2. **Controlador** recibe el evento y solicita datos
+3. **Controlador** envía datos al **Modelo**
+4. **Modelo** valida y guarda la tarea
+5. **Modelo** devuelve confirmación al **Controlador**
+6. **Controlador** actualiza la **Vista** con mensaje de éxito
+
+---
+
+## ❌ **El Problema: Código Espagueti**
+
+**Sin MVC:**
+```java
+// TODO EN UN SOLO LUGAR - MAL
+public void hacerTodo() {
+    System.out.println("Ingrese nombre:");
+    String nombre = scanner.nextLine();
+    
+    // Validación mezclada con entrada
+    if (nombre.length() > 2) {
+        // Lógica de negocio mezclada
+        lista.add(nombre);
+        
+        // Salida mezclada
+        System.out.println("Guardado!");
+    }
+}
+```
+
+**Problemas:**
+- Cambiar de consola a web requiere reescribir TODO
+- Difícil de probar
+- Difícil de mantener
+- Bajo reutilización
+
+---
+
+## ✅ **Ventajas de Usar MVC**
+
+| Ventaja | Descripción |
+|---------|-------------|
+| **Reutilización** | El mismo Modelo funciona con Vista de consola, web o móvil |
+| **Paralelismo** | Varios desarrolladores pueden trabajar simultáneamente en diferentes componentes |
+| **Mantenibilidad** | Errores fáciles de localizar por tipo (visual vs lógico) |
+| **Escalabilidad** | Agregar funciones sin romper código existente |
+| **Testeo** | Probar lógica de negocio sin necesidad de interfaz |
+
+---
+
+## 🏗️ **MVC + Principios de Diseño**
+
+MVC cumple con los principios fundamentales:
+
+### **SRP (Responsabilidad Única)**
+- Vista: solo muestra
+- Modelo: solo gestiona datos
+- Controlador: solo coordina
+
+### **Alta Cohesión**
+- Cada componente tiene una función clara y enfocada
+
+### **Bajo Acoplamiento**
+- Cambiar el Modelo no rompe la Vista
+- Cambiar la Vista no afecta el Modelo
+
+### **KISS (Keep It Simple)**
+- Cada componente es simple en su función
+
+---
+
+## 📋 **Reglas de Oro de MVC**
+
+### **El Modelo NO debe:**
+❌ Tener comandos `print()`, `alert()`, `System.out.println()`  
+❌ Recibir entrada del usuario directamente (`Scanner`, `input()`)  
+❌ Conocer la existencia de la Vista
+
+### **La Vista NO debe:**
+❌ Hacer cálculos matemáticos o validaciones de negocio  
+❌ Guardar datos directamente  
+❌ Tomar decisiones lógicas complejas
+
+### **El Controlador NO debe:**
+❌ Contener lógica de negocio pesada  
+❌ Mostrar datos directamente  
+❌ Guardar estado (debe delegarlo al Modelo)
+
+---
+
+## 🚩 **Errores Comunes (Red Flags)**
+
+Identifica violaciones de MVC:
+
+| Código | ¿Es correcto? | Razón |
+|--------|---------------|-------|
+| `System.out.println()` en el Modelo | ❌ NO | El Modelo no debe mostrar datos |
+| `Scanner` en el Modelo | ❌ NO | El Modelo no debe capturar entrada |
+| Cálculos matemáticos en la Vista | ❌ NO | La Vista solo muestra |
+| `lista.add()` en la Vista | ❌ NO | La Vista no guarda datos |
+| Validación de negocio en el Controlador | ⚠️ DEPENDE | Mejor en el Modelo |
+
+---
+
+## 🔍 **Ejemplo de Código Anti-Patrón**
+
+```java
+public class SuperManager {
+    private ArrayList<String> items = new ArrayList<>();
+    private Scanner leer = new Scanner(System.in);
+
+    public void procesarTodo() {
+        while (true) {
+            System.out.println("--- SUPERMERCADO ---");
+            System.out.println("1. Añadir 2. Ver 3. Salir");
+            int opt = Integer.parseInt(leer.nextLine());
+
+            if (opt == 1) {
+                System.out.print("Nombre producto: ");
+                String nombre = leer.nextLine();
+
+                if (nombre != null && !nombre.trim().isEmpty()) {
+                    if (nombre.length() > 2) {
+                        boolean existe = false;
+                        for(String s : items) { 
+                            if(s.equals(nombre)) existe = true; 
+                        }
+                        if(!existe) {
+                            items.add(nombre);
+                            System.out.println("¡Éxito!");
+                        }
+                    }
+                }
+            } else if (opt == 3) break;
+        }
+    }
+}
+```
+
+### **Violaciones Identificadas:**
+
+1. **❌ Violación de SRP:** Todo está en una sola clase
+   - Mezcla entrada/salida, lógica de negocio y datos
+
+2. **❌ Violación de Cohesión:** 
+   - Scanner, ArrayList, validaciones y mensajes juntos
+
+3. **❌ Violación de KISS:**
+   - Lógica innecesariamente compleja con anidaciones profundas
+
+4. **❌ No usa MVC:**
+   - No hay separación entre Modelo, Vista y Controlador
+
+---
+
+## ✅ **Solución con MVC**
+
+### **Modelo**
+```java
+public class ProductoModel {
+    private ArrayList<String> productos = new ArrayList<>();
+    
+    public boolean agregar(String nombre) {
+        if (nombre == null || nombre.length() <= 2) {
+            return false;
+        }
+        if (productos.contains(nombre)) {
+            return false;
+        }
+        productos.add(nombre);
+        return true;
+    }
+    
+    public List<String> obtenerTodos() {
+        return new ArrayList<>(productos);
+    }
+}
+```
+
+### **Vista**
+```java
+public class ProductoView {
+    private Scanner scanner = new Scanner(System.in);
+    
+    public void mostrarMenu() {
+        System.out.println("--- SUPERMERCADO ---");
+        System.out.println("1. Añadir 2. Ver 3. Salir");
+    }
+    
+    public String pedirNombre() {
+        System.out.print("Nombre producto: ");
+        return scanner.nextLine();
+    }
+    
+    public void mostrarExito() {
+        System.out.println("¡Producto agregado!");
+    }
+    
+    public void mostrarError(String mensaje) {
+        System.out.println("Error: " + mensaje);
+    }
+}
+```
+
+### **Controlador**
+```java
+public class ProductoController {
+    private ProductoModel modelo;
+    private ProductoView vista;
+    
+    public ProductoController(ProductoModel modelo, ProductoView vista) {
+        this.modelo = modelo;
+        this.vista = vista;
+    }
+    
+    public void agregarProducto() {
+        String nombre = vista.pedirNombre();
+        
+        if (modelo.agregar(nombre)) {
+            vista.mostrarExito();
+        } else {
+            vista.mostrarError("Producto inválido o duplicado");
+        }
+    }
+}
+```
+
+---
+
+## 🌐 **Comunicación entre Componentes**
+
+Los datos viajan de forma **estructurada** (JSON, objetos):
+
+```java
+// Ejemplo de objeto estructurado
+{
+  "tipo": "Pepperoni",
+  "tamaño": "Grande",
+  "precio": 15.50,
+  "ingredientes": ["queso", "salsa", "pepperoni"]
+}
+```
+
+---
+
+## 💡 **Consejos Prácticos**
+
+✅ **Hacer:**
+- Mantener cada componente en su propio archivo/clase
+- Usar nombres descriptivos (`ProductoModel`, no `Manager`)
+- Validar datos en el Modelo
+- Mantener el Controlador delgado (solo coordina)
+
+❌ **Evitar:**
+- Clases "todopoderosas" que hacen todo
+- Mezclar responsabilidades
+- Acceso directo entre Vista y Modelo (siempre usar Controlador)
+- Lógica compleja en el Controlador
+
+---
+
+## 📚 **Resumen de Responsabilidades**
+
+| Componente | Pregunta clave | Responsabilidad |
+|------------|----------------|-----------------|
+| **Modelo** | ¿Qué datos tengo? | Gestionar datos y lógica de negocio |
+| **Vista** | ¿Cómo se ve? | Mostrar datos y capturar entrada |
+| **Controlador** | ¿Qué hago con esto? | Coordinar Modelo y Vista |
+
+---
+
+## 🎓 **Para Recordar**
+
+> **"La Vista muestra, el Modelo piensa, el Controlador decide"**
+
+MVC no es solo separar código en carpetas, es una **mentalidad de diseño** que mantiene tu aplicación limpia, flexible y profesional.
+
+---

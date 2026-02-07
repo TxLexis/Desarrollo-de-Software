@@ -1,0 +1,613 @@
+# Resumen: Principios Básicos de Diseño de Software
+
+---
+
+## 🎯 **¿Qué son los Principios de Diseño?**
+
+**Definición:** Reglas guía (heurísticas) que ayudan a estructurar código para reducir complejidad y facilitar cambios.
+
+**Objetivo:** Hacer el software:
+- Fácil de **entender**
+- Fácil de **cambiar**
+- Difícil de **romper**
+
+**Realidad:** El software cambia más de lo que se "termina" → diseñar para el cambio es crucial.
+
+---
+
+## 👹 **El Enemigo Común: La Complejidad**
+
+**Complejidad = más tiempo para entender + más bugs + miedo a cambiar**
+
+Los principios de diseño buscan **reducir la complejidad accidental** (la que nosotros creamos).
+
+---
+
+## 📋 **Los 4 Principios Fundamentales**
+
+### **1. KISS (Keep It Simple)**
+### **2. Cohesión**
+### **3. Acoplamiento**
+### **4. SRP (Responsabilidad Única)**
+
+---
+
+# 1️⃣ **Principio KISS (Keep It Simple)**
+
+## **¿Qué es KISS?**
+
+**Definición:** Preferir soluciones **claras y directas** sobre soluciones "ingeniosas".
+
+**Regla de oro:** Si nadie entiende el código excepto quien lo escribió, **no es simple**.
+
+---
+
+## **¿Qué NO es KISS?**
+
+❌ Menos líneas a cualquier costo  
+❌ Código sin estructura  
+❌ Evitar patrones siempre
+
+✅ **KISS sí es:** Minimizar complejidad accidental y expresar intención claramente.
+
+---
+
+## **🚩 Señales de que Rompes KISS**
+
+- Interfaces/clases abstractas "por si acaso"
+- Jerarquías profundas de herencia
+- Reimplementar cosas que ya existen en la plataforma
+- Métodos con muchos `if` anidados (arrow code)
+- Demasiado estado mutable
+
+---
+
+## **5 Estrategias para Aplicar KISS**
+
+### **1. KISS + YAGNI (You Aren't Gonna Need It)**
+
+❌ **Error:** Crear `IService` + `AbstractService` + `ConcreteService` cuando solo existe **un** servicio.
+
+✅ **KISS:** Construye para el requerimiento de **hoy**. Si mañana aparece una segunda implementación, **refactoriza**.
+
+**Regla:** "Espera a la tercera vez" antes de generalizar.
+
+---
+
+### **2. Composición sobre Herencia**
+
+**Problema de herencia:** Estructuras rígidas y frágiles.
+
+```java
+// ✅ Composición (simple)
+final class Car {
+    private final Engine engine;
+    Car(Engine engine) { this.engine = engine; }
+}
+```
+
+**Analogía:** LEGO (composición) vs Transformable con 20 niveles (herencia).
+
+---
+
+### **3. Usa la API Estándar**
+
+❌ **Manual (más superficie de error):**
+```java
+List<String> dest = new ArrayList<>();
+for (String item : source) {
+    if (item != null) dest.add(item);
+}
+```
+
+✅ **Java moderno (intención clara):**
+```java
+List<String> dest = source.stream()
+    .filter(Objects::nonNull)
+    .toList();
+```
+
+---
+
+### **4. Retorno Temprano (Early Return)**
+
+Evita `if` anidados validando lo negativo primero.
+
+```java
+public Money total(Order order) {
+    if (order == null) throw new IllegalArgumentException("order");
+    if (order.items().isEmpty()) return Money.zero();
+    
+    // A partir de aquí, tu cerebro "olvida" esos casos
+    return pricing.calculate(order.items());
+}
+```
+
+---
+
+### **5. Inmutabilidad + Records**
+
+```java
+// ✅ Record: DTO simple e inmutable
+public record Point(int x, int y) {}
+```
+
+**Beneficio:** Menos boilerplate, menos lugares para equivocarse.
+
+---
+
+## **✅ Checklist KISS**
+
+- [ ] ¿Hay abstracción prematura? (YAGNI)
+- [ ] ¿Hay herencia profunda? (preferir composición)
+- [ ] ¿Estoy reinventando API estándar?
+- [ ] ¿Hay `if` anidados evitables? (guard clauses)
+- [ ] ¿Puedo hacer datos inmutables/records?
+
+---
+
+# 2️⃣ **Principio de Cohesión**
+
+## **¿Qué es Cohesión?**
+
+**Definición:** Mide qué tan **relacionados y enfocados** están los elementos dentro de una clase o módulo.
+
+**Intuición:** Una clase cohesiva se puede describir con un propósito claro y único.
+
+---
+
+## **Alta vs Baja Cohesión**
+
+### ✅ **Alta Cohesión**
+- La clase tiene **una intención dominante**
+- Sus métodos trabajan sobre **los mismos datos del dominio**
+- Los cambios típicos afectan **una zona** del código
+
+### ❌ **Baja Cohesión**
+- Mezcla responsabilidades sin relación fuerte
+- Métodos que "no se parecen" entre sí
+- Cambios diferentes terminan tocando la misma clase
+
+---
+
+## **Analogía: Una Cocina**
+
+- **Alta cohesión:** Todo relacionado con cocinar (sartenes, cuchillos, ingredientes)
+- **Baja cohesión:** Cocina con herramientas de mecánica, papeles de contabilidad, juguetes
+
+**Resultado de baja cohesión:** Cuesta encontrar cosas, se pierde orden, aumenta el error.
+
+---
+
+## **Ejemplo de Baja Cohesión**
+
+```java
+// ❌ "Utils" - cajón de sastre
+public final class Utils {
+    public static String encodeBase64(String s) { ... }
+    public static boolean isWeekend(LocalDate date) { ... }
+    public static int clamp(int value, int min, int max) { ... }
+    public static double computeTax(double subtotal) { ... }
+}
+```
+
+**Problema:** Son "cosas útiles" pero **no pertenecen al mismo concepto**.
+
+---
+
+## **Ejemplo de Alta Cohesión**
+
+```java
+// ✅ Clase enfocada en facturación
+public final class InvoiceCalculator {
+    public BigDecimal subtotal(Invoice invoice) { ... }
+    public BigDecimal tax(BigDecimal subtotal, TaxPolicy policy) { ... }
+    public BigDecimal total(Invoice invoice, TaxPolicy policy) { ... }
+}
+```
+
+**Beneficio:** Todo gira alrededor de **calcular una factura**.
+
+---
+
+## **Heurísticas para Evaluar Cohesión**
+
+### **1. Test del Nombre**
+
+✅ `InvoiceCalculator`, `PasswordPolicy`, `OrderRepository`  
+❌ `Utils`, `Helper`, `Manager`, `CommonStuff`
+
+**Si el nombre no indica responsabilidad clara, sospecha.**
+
+---
+
+### **2. ¿Qué Cambia Junto?**
+
+Alta cohesión = las razones de cambio son parecidas:
+- Si cambia la política de impuestos → afecta cálculo de factura
+- Si cambia la codificación Base64 → no debería tocar facturación
+
+---
+
+### **3. ¿Usan los Mismos Datos?**
+
+En alta cohesión, los métodos suelen operar sobre:
+- El mismo conjunto de atributos del objeto
+- El mismo concepto del dominio
+
+---
+
+# 3️⃣ **Principio de Acoplamiento**
+
+## **¿Qué es Acoplamiento?**
+
+**Definición:** Grado de dependencia entre dos módulos (clases, componentes).
+
+**Intuición:**
+- **Alto acoplamiento:** "Si cambio A, probablemente rompo B, C y D"
+- **Bajo acoplamiento:** "Puedo cambiar A sin tocar B"
+
+**Analogía:** Enchufe eléctrico con interfaz estándar.
+
+---
+
+## **¿Por Qué Importa?**
+
+### **Alto Acoplamiento genera:**
+- Cambios en cascada (efecto dominó)
+- Dificultad para probar en aislamiento
+- Código frágil y riesgoso
+- Reutilización limitada
+
+### **Bajo Acoplamiento permite:**
+- Cambios localizados
+- Pruebas unitarias simples
+- Flexibilidad para evolucionar
+- Módulos intercambiables
+
+---
+
+## **Tipos de Acoplamiento (de peor a mejor)**
+
+1. **Acoplamiento de contenido** (peor) - acceso directo a detalles internos
+2. **Acoplamiento común** - variables globales compartidas
+3. **Acoplamiento de control** - banderas que controlan flujo
+4. **Acoplamiento de datos** - estructuras de datos simples
+5. **Acoplamiento por interfaz** (mejor) - depender de abstracciones
+
+---
+
+## **Ejemplo: Acoplamiento de Contenido**
+
+```java
+// ❌ Alto acoplamiento
+public class Order {
+    public List<Item> items = new ArrayList<>();  // público, mutable
+    public double total = 0.0;
+}
+
+public class OrderProcessor {
+    public void process(Order order) {
+        order.items.clear();  // ¡Modifica estado interno!
+    }
+}
+}
+```
+
+---
+
+## **Solución: Encapsulamiento**
+
+```java
+// ✅ Bajo acoplamiento
+public class Order {
+    private final List<Item> items = new ArrayList<>();
+    private double total = 0.0;
+    
+    public void addItem(Item item) { ... }
+    public double getTotal() { return total; }
+    public void clear() { items.clear(); total = 0.0; }
+}
+
+public class OrderProcessor {
+    public void process(Order order) {
+        // Solo usa la interfaz pública
+        System.out.println("Processing: $" + order.getTotal());
+        order.clear();
+    }
+}
+```
+
+---
+
+## **🚩 Señales de Alto Acoplamiento**
+
+### **1. Encadenamiento de llamadas**
+```java
+// ❌ Ley de Demeter violada
+customer.getAddress().getCity().getPostalCode().validate();
+```
+
+### **2. Importaciones masivas**
+```java
+import com.company.database.MySQLConnection;
+import com.company.email.GmailSender;
+// ... 20 imports más
+```
+
+### **3. Cambios en cascada**
+"Para cambiar el formato de fecha en la UI, tuve que modificar 15 clases"
+
+---
+
+## **Estrategias para Reducir Acoplamiento**
+
+### **1. Inyección de Dependencias**
+
+```java
+// Antes: alto acoplamiento
+public class OrderService {
+    private final EmailSender sender = new GmailSender();  // ❌
+}
+
+// Después: bajo acoplamiento
+public class OrderService {
+    private final EmailSender sender;
+    
+    public OrderService(EmailSender sender) {  // ✅
+        this.sender = sender;
+    }
+}
+```
+
+---
+
+### **2. Programar contra Interfaces**
+
+```java
+// ❌ Acoplado a implementación
+ArrayList<String> names = new ArrayList<>();
+
+// ✅ Acoplado a interfaz
+List<String> names = new ArrayList<>();
+```
+
+---
+
+### **3. Polimorfismo sobre Condicionales**
+
+```java
+// ❌ Acoplamiento de control
+public class ReportGenerator {
+    public void generate(String type) {
+        if (type.equals("PDF")) generatePDF();
+        else if (type.equals("Excel")) generateExcel();
+    }
+}
+
+// ✅ Polimorfismo
+public interface ReportGenerator {
+    void generate();
+}
+
+public class PDFReportGenerator implements ReportGenerator { ... }
+public class ExcelReportGenerator implements ReportGenerator { ... }
+```
+
+---
+
+## **Acoplamiento en MVC**
+
+```
+┌─────────────┐
+│    Vista    │  ← Solo conoce al Controlador
+└──────┬──────┘
+       ↓
+┌─────────────┐
+│ Controlador │  ← Conoce Vista y Modelo
+└──────┬──────┘
+       ↓
+┌─────────────┐
+│   Modelo    │  ← No conoce a nadie
+└─────────────┘
+```
+
+**Principio:** Las capas inferiores NO deben conocer las superiores.
+
+---
+
+## **✅ Checklist de Acoplamiento**
+
+- [ ] ¿Mis clases dependen de **interfaces** en lugar de **implementaciones**?
+- [ ] ¿Puedo probar cada clase de forma **aislada**?
+- [ ] ¿Un cambio en A requiere cambiar B, C, D?
+- [ ] ¿Evito acceder a "tripas" de otros objetos? (`a.getB().getC()`)  
+- [ ] ¿Uso inyección de dependencias en lugar de `new` hardcoded?
+- [ ] ¿Respeto la Ley de Demeter? ("habla solo con amigos cercanos")
+
+---
+
+# 4️⃣ **Principio SRP (Responsabilidad Única)**
+
+## **¿Qué es SRP?**
+
+**Definición:** Una clase debe tener **una sola razón para cambiar**.
+
+**Clave:** Esa razón suele estar asociada a un **actor** (persona/área) que pide el cambio.
+
+---
+
+## **Ejemplo: Violación de SRP**
+
+```java
+// ❌ Clase "Dios"
+public class Estudiante {
+    String nombre;
+    double n1, n2;
+
+    public double promedio() { ... }      // Lógica
+    public void imprimir() { ... }        // Pantalla
+    public void guardar() { ... }         // Archivos
+}
+```
+
+**Problemas:**
+- Si cambia la fórmula del promedio → tocas la clase
+- Si cambias el diseño del reporte → tocas la clase
+- Un cambio puede romper el otro
+
+---
+
+## **Solución: Dividir Responsabilidades**
+
+```java
+// ✅ Clase de Datos
+public class Estudiante {
+    String nombre;
+    double n1, n2;
+}
+
+// ✅ Clase de Lógica
+public class Calculadora {
+    public double obtenerPromedio(Estudiante e) {
+        return (e.n1 + e.n2) / 2;
+    }
+}
+
+// ✅ Clase de Pantalla
+public class ReporteConsola {
+    public void mostrar(Estudiante e) {
+        System.out.println("Alumno: " + e.nombre);
+    }
+}
+}
+```
+
+---
+
+## **Beneficios de SRP**
+
+| Beneficio | Descripción |
+|-----------|-------------|
+| **Mantenibilidad** | Fácil localizar dónde hacer cambios |
+| **Pruebas** | Probar calculadora sin necesidad de pantalla |
+| **Reuso** | Usar la lógica en otros programas fácilmente |
+| **Claridad** | Cada clase tiene un propósito obvio |
+
+---
+
+## **Síntomas de Violación de SRP**
+
+- La clase tiene métodos de "muchos dominios"
+- Las pruebas son difíciles porque hay que probar todo a la vez
+- La clase es muy larga
+- Cambios no relacionados se mezclan
+
+---
+
+# 🔗 **Cómo se Conectan los 4 Principios**
+
+```
+┌─────────────────────────────────────────────────┐
+│  SIMPLICIDAD (KISS)                             │
+│  └─ Menos pasos, menos "magia"                  │
+└─────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────┐
+│  COHESIÓN                                       │
+│  └─ Cada cosa en su lugar, propósito claro     │
+└─────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────┐
+│  BAJO ACOPLAMIENTO                              │
+│  └─ Piezas intercambiables sin romper todo     │
+└─────────────────────────────────────────────────┘
+                      ↓
+┌─────────────────────────────────────────────────┐
+│  SRP                                            │
+│  └─ Cada clase responde a un tipo de cambio    │
+└─────────────────────────────────────────────────┘
+```
+
+**Cuando se cumplen:** El sistema se deja modificar sin miedo.
+
+---
+
+## 🏠 **Analogía Final: Una Casa Bien Diseñada**
+
+| Principio | Analogía en Casa |
+|-----------|------------------|
+| **Simplicidad** | Pasillos claros, distribución lógica |
+| **Cohesión** | Cocina para cocinar, baño para bañarse |
+| **Bajo Acoplamiento** | Cambiar lámpara sin reconstruir techo |
+| **SRP** | Cada habitación tiene un propósito |
+
+---
+
+## 📊 **Tabla Comparativa de Principios**
+
+| Principio | Pregunta Clave | Beneficio Principal | Red Flag |
+|-----------|----------------|---------------------|----------|
+| **KISS** | ¿Es simple de entender? | Menos bugs | Código "ingenioso" que nadie entiende |
+| **Cohesión** | ¿Todo pertenece junto? | Cambios localizados | Clase "Utils" con todo |
+| **Acoplamiento** | ¿Depende de abstracciones? | Flexibilidad | Cambiar A rompe B, C, D |
+| **SRP** | ¿Una razón para cambiar? | Mantenibilidad | Clase que hace todo |
+
+---
+
+## 💡 **Test del "Junior"**
+
+> "Si le muestro este código a una persona junior recién contratada,  
+> ¿entiende qué hace en menos de 2 minutos sin que yo lo explique?"
+
+- **NO:** Hay complejidad innecesaria → refactor
+- **SÍ:** Vas bien (aunque no sea "ingenioso")
+
+---
+
+## 🎯 **Reglas de Oro del Diseño**
+
+### **KISS**
+> "La simplicidad es la máxima sofisticación"
+
+### **Cohesión**
+> "Cada cosa en su lugar"
+
+### **Acoplamiento**
+> "Depende de abstracciones, no de concreciones"
+
+### **SRP**
+> "Una clase, una razón para cambiar"
+
+---
+
+## ✅ **Checklist General de Diseño**
+
+- [ ] ¿El código es simple y directo? (KISS)
+- [ ] ¿Cada clase tiene un propósito claro? (Cohesión)
+- [ ] ¿Dependo de interfaces, no implementaciones? (Acoplamiento)
+- [ ] ¿Cada clase tiene una sola responsabilidad? (SRP)
+- [ ] ¿Puedo explicar cada clase en una frase?
+- [ ] ¿Los cambios son localizados, no en cascada?
+- [ ] ¿Es fácil escribir pruebas unitarias?
+
+---
+
+## 📚 **Para Recordar**
+
+**El enemigo:** La complejidad accidental
+
+**La meta:** Software que sea fácil de entender, cambiar y difícil de romper
+
+**Los 4 pilares:**
+1. **KISS** - Manténlo simple
+2. **Cohesión** - Cosas relacionadas juntas
+3. **Bajo Acoplamiento** - Dependencias controladas
+4. **SRP** - Una responsabilidad por clase
+
+---
+
+**"El buen diseño no es agregar cosas hasta que funcione,  
+es quitar cosas hasta que ya no puedas quitar más."**
+
+---

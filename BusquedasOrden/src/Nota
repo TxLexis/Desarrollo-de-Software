@@ -1,0 +1,12 @@
+Bubble Sort                         → O(n²)
+Bubble Sort optimizado              → O(n) mejor caso / O(n²) peor caso
+Selection Sort (con counting)       → O(n²)
+Selection Sort (con swapping)       → O(n²)
+Sinking Sort                        → O(n²)
+
+Quick Sort                          → O(n log n) promedio / O(n²) peor caso
+Merge Sort                          → O(n log n) siempre
+
+Búsqueda lineal                     → O(n)
+Búsqueda binaria                    → O(log n)
+Búsqueda binaria recursiva          → O(log n)

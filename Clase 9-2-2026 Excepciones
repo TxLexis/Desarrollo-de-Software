@@ -1,0 +1,37 @@
+public boolean add(Book book) throws IndexFullException {
+        // false si está lleno
+        if(book == null || saveIndex >= books.length){
+            //Excepción
+            throw new IndexFullException("Capacidad de libros llena");
+        }
+
+
+
+public class IndexFullException extends Exception{
+    private String model;
+
+    public IndexFullException(String model){
+        super("Capacidad de " + model + " lleno");
+        this.model =  model;
+    }
+
+    public String getModel(){
+        return model;
+    }
+}
+
+
+   // Llamado de la excepción
+        }catch (IndexFullException e){
+            System.out.println("Capacidad llena:" + e.getModel());
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No hay escpacio para agregar más valores",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }

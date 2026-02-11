@@ -1,1 +1,541 @@
+# Resumen Completo: Curso de Java Swing (Lecciones 1-9)
 
+## 📚 Estructura General del Curso
+
+Este es un curso de **Desarrollo de Software II (IF0004)** enfocado en interfaces gráficas con Java Swing, con énfasis en principios de diseño (KISS, SRP, DRY) y buenas prácticas de POO.
+
+---
+
+## 🎯 Lección 01: Introducción a Swing - Componentes Básicos
+
+### Conceptos Clave
+- **Swing vs AWT**: Swing ofrece componentes ligeros y multiplataforma
+- **JFrame**: Contenedor principal (ventana del sistema operativo)
+- **Componentes básicos**: JLabel (texto estático), JButton (botón clickeable), JTextField (entrada de texto)
+
+### Buenas Prácticas Introducidas
+- Usar `SwingUtilities.invokeLater()` para crear GUI en el Event Dispatch Thread (EDT)
+- Extender JFrame para crear clases de ventana organizadas
+- Separar creación de componentes de configuración de ventana
+
+### Código Ejemplo
+```java
+public class VentanaOrganizada extends JFrame {
+    public VentanaOrganizada() {
+        super("Título");
+        inicializarComponentes();
+        configurarVentana();
+    }
+    
+    private void inicializarComponentes() {
+        // Crear y agregar componentes
+    }
+    
+    private void configurarVentana() {
+        setSize(400, 300);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+}
+```
+
+---
+
+## 🎯 Lección 02: Contenedores y Layouts
+
+### LayoutManagers Principales
+
+| Layout | Uso | Cuándo Usar |
+|--------|-----|-------------|
+| **FlowLayout** | Organiza componentes en fila, izquierda→derecha | Barras de botones simples |
+| **BorderLayout** | Divide en 5 regiones (N, S, E, W, CENTER) | Aplicaciones típicas de escritorio |
+| **GridLayout** | Cuadrícula de celdas iguales | Calculadoras, formularios uniformes |
+
+### Jerarquía de Contenedores
+```
+JFrame (ventana)
+  └─ JPanel (contenedor ligero)
+       ├─ JButton
+       ├─ JLabel
+       └─ JTextField
+```
+
+### Buenas Prácticas
+- Usar `pack()` en lugar de `setSize()` cuando sea posible
+- Agregar márgenes con `BorderFactory.createEmptyBorder()`
+- Separar creación de paneles en métodos privados (SRP)
+- Combinar layouts anidando JPanels
+
+### Proyecto: Sistema de Login
+```java
+private void inicializarComponentes() {
+    setLayout(new BorderLayout(10, 10));
+    add(crearPanelTitulo(), BorderLayout.NORTH);
+    add(crearPanelFormulario(), BorderLayout.CENTER);
+    add(crearPanelBotones(), BorderLayout.SOUTH);
+}
+```
+
+---
+
+## 🎯 Lección 03: Eventos y Listeners
+
+### Modelo de Eventos en Swing
+```
+Fuente (JButton) → Evento (ActionEvent) → Listener (tu código)
+```
+
+### Tres Formas de Implementar Listeners
+
+**1. Clase Anónima (tradicional)**
+```java
+btnLogin.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // código
+    }
+});
+```
+
+**2. Lambda (moderna, recomendada)**
+```java
+btnLogin.addActionListener(e -> manejarLogin());
+```
+
+**3. Método Extraído (mejor SRP)**
+```java
+private void configurarEventos() {
+    btnLogin.addActionListener(e -> manejarLogin());
+}
+
+private void manejarLogin() {
+    // lógica separada
+}
+```
+
+### JOptionPane: Tipos de Diálogos
+- **ERROR_MESSAGE**: Errores críticos
+- **WARNING_MESSAGE**: Advertencias
+- **INFORMATION_MESSAGE**: Mensajes informativos
+- **showConfirmDialog**: Preguntas Sí/No
+- **showInputDialog**: Solicitar entrada de texto
+
+### Buenas Prácticas
+- Un listener → un método
+- Validar ANTES de procesar
+- Crear métodos auxiliares reutilizables (`mostrarError()`, `mostrarExito()`)  
+- Separar validación de UI de lógica de negocio
+
+---
+
+## 🎯 Lección 04: Componentes de Selección
+
+### Componentes Principales
+
+| Componente | Tipo de Selección | Uso |
+|------------|-------------------|-----|
+| **JComboBox** | Una opción de lista desplegable | Países, categorías |
+| **JCheckBox** | Múltiple (0 o más) | Términos, opciones |
+| **JRadioButton** | Única exclusiva (1 de N) | Género, horario |
+| **JTextArea** | Texto extenso multilínea | Biografías, comentarios |
+
+### JRadioButton: ButtonGroup Obligatorio
+```java
+JRadioButton rbDiurno = new JRadioButton("Diurno");
+JRadioButton rbNocturno = new JRadioButton("Nocturno");
+
+ButtonGroup grupo = new ButtonGroup();
+grupo.add(rbDiurno);
+grupo.add(rbNocturno);
+```
+
+### JTextArea: Siempre con JScrollPane
+```java
+JTextArea txtDescripcion = new JTextArea(5, 20);
+txtDescripcion.setLineWrap(true);
+txtDescripcion.setWrapStyleWord(true);
+
+JScrollPane scroll = new JScrollPane(txtDescripcion);
+panel.add(scroll);
+```
+
+---
+
+## 🎯 Lección 05: Patrón MVC
+
+### Arquitectura MVC
+
+```
+┌─────────┐      ┌──────────────┐      ┌─────────┐
+│  Modelo │◄─────┤ Controlador  ├─────►│  Vista  │
+│ (Datos) │      │ (Intermediar)│      │  (UI)   │
+└─────────┘      └──────────────┘      └─────────┘
+```
+
+### Responsabilidades
+
+**Modelo (Persona.java)**
+- Clases POJO (Plain Old Java Objects)
+- Lógica de negocio
+- NO conoce Swing
+
+**Vista (VistaPersona.java)**
+- Solo componentes Swing
+- Métodos para obtener/mostrar datos
+- NO procesa lógica
+
+**Controlador (ControladorPersona.java)**
+- Conecta Modelo y Vista
+- Valida datos
+- Coordina flujo de información
+
+### Implementación Básica
+```java
+public class ControladorPersona {
+    private Persona modelo;
+    private VistaPersona vista;
+    
+    public ControladorPersona(Persona modelo, VistaPersona vista) {
+        this.modelo = modelo;
+        this.vista = vista;
+        this.vista.addGuardarListener(e -> guardarDatos());
+    }
+    
+    private void guardarDatos() {
+        String nombre = vista.txtNombre.getText();
+        if (nombre.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Nombre requerido");
+            return;
+        }
+        modelo.setNombre(nombre);
+    }
+}
+```
+
+### Beneficios
+- **Testabilidad**: Puedes testear el Modelo sin GUI
+- **SRP**: Cada capa tiene una responsabilidad
+- **Mantenibilidad**: Cambios en UI no afectan lógica
+
+---
+
+## 🎯 Lección 06: Estructuras de Datos en la GUI
+
+### JList + DefaultListModel
+
+**Arquitectura Mini-MVC**
+- **JList**: Vista (pinta elementos)
+- **DefaultListModel**: Modelo (notifica cambios)
+
+### Implementación
+```java
+private DefaultListModel<Contacto> modeloLista;
+private JList<Contacto> listaJList;
+
+public VistaContactos() {
+    modeloLista = new DefaultListModel<>();
+    listaJList = new JList<>(modeloLista);
+    add(new JScrollPane(listaJList), BorderLayout.CENTER);
+}
+
+public void agregarContacto(Contacto c) {
+    modeloLista.addElement(c);
+}
+
+public void eliminarSeleccionado() {
+    int index = listaJList.getSelectedIndex();
+    if (index != -1) {
+        modeloLista.remove(index);
+    }
+}
+}
+```
+
+### Integración con ArrayList
+```java
+private ArrayList<Contacto> baseDeDatos = new ArrayList<>();
+
+public void registrarNuevoContacto(String n, String t) {
+    Contacto nuevo = new Contacto(n, t);
+    baseDeDatos.add(nuevo);           // Estructura de datos
+    vista.agregarContacto(nuevo);     // Actualiza UI
+}
+}
+```
+
+### Buenas Prácticas
+- Validar selección: `if (lista.getSelectedIndex() != -1)`
+- Usar generics: `DefaultListModel<Contacto>`
+- Sincronizar ArrayList con DefaultListModel
+
+---
+
+## 🎯 Lección 07: Componentes Avanzados - Tablas
+
+### JTable + DefaultTableModel
+
+**Arquitectura**
+- **JTable**: Vista (renderizado)
+- **DefaultTableModel**: Modelo (datos matriciales)
+
+### Configuración Básica
+```java
+String[] columnas = {"Carné", "Nombre", "Carrera", "Promedio"};
+
+DefaultTableModel modeloTabla = new DefaultTableModel(columnas, 0) {
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false; // Bloquear edición directa
+    }
+};
+
+JTable tablaEstudiantes = new JTable(modeloTabla);
+tablaEstudiantes.setAutoCreateRowSorter(true); // Ordenamiento al clic
+
+// SIEMPRE en JScrollPane
+JScrollPane scrollPane = new JScrollPane(tablaEstudiantes);
+```
+
+### Operaciones CRUD
+
+**Agregar**
+```java
+Object[] fila = {est.getCarne(), est.getNombre(), est.getCarrera(), est.getPromedio()};
+modeloTabla.addRow(fila);
+```
+
+**Eliminar**
+```java
+int fila = tablaEstudiantes.getSelectedRow();
+if (fila != -1) {
+    modeloTabla.removeRow(fila);
+}
+```
+
+**Obtener Datos (con ordenamiento)**
+```java
+int fila = tablaEstudiantes.getSelectedRow();
+int modeloFila = tablaEstudiantes.convertRowIndexToModel(fila);
+String carne = modeloTabla.getValueAt(modeloFila, 0).toString();
+```
+
+---
+
+## 🎯 Lección 08: Validación y Gestión de Excepciones
+
+### Tipos de Validación
+
+**Sintáctica (Vista)**
+- ¿Es un número?
+- ¿Está vacío?
+- Se hace ANTES de enviar al controlador
+
+**Semántica (Modelo)**
+- ¿Ya existe?
+- ¿Es lógicamente válido?
+- Requiere consultar lógica de negocio
+
+### Manejo de Excepciones
+```java
+private void manejarGuardar() {
+    try {
+        String nombre = vista.getNombre();
+        double promedio = Double.parseDouble(vista.getPromedioTexto());
+        
+        if (nombre.trim().isEmpty()) {
+            throw new Exception("El nombre no puede estar vacío");
+        }
+        
+        controlador.guardar(nombre, promedio);
+        
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(vista, 
+            "El promedio debe ser un número válido", 
+            "Error de Formato", 
+            JOptionPane.ERROR_MESSAGE);
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(vista, 
+            ex.getMessage(), 
+            "Validación", 
+            JOptionPane.WARNING_MESSAGE);
+    }
+}
+```
+
+### Diálogos de Confirmación
+```java
+int respuesta = JOptionPane.showConfirmDialog(
+    this, 
+    "¿Está seguro de eliminar este registro?", 
+    "Confirmar Eliminación", 
+    JOptionPane.YES_NO_OPTION, 
+    JOptionPane.WARNING_MESSAGE
+);
+
+if (respuesta == JOptionPane.YES_OPTION) {
+    modeloTabla.removeRow(fila);
+}
+```
+
+### Diálogos de Entrada
+```java
+String carneABuscar = JOptionPane.showInputDialog(
+    this, 
+    "Ingrese el número de carné:", 
+    "Buscar Estudiante", 
+    JOptionPane.QUESTION_MESSAGE
+);
+```
+
+---
+
+## 🎯 Lección 09: Menús, Barras de Herramientas e Iconos
+
+### Jerarquía de Menús
+
+```
+JMenuBar (barra horizontal)
+  └─ JMenu (pestaña desplegable)
+       └─ JMenuItem (opción final)
+```
+
+### Implementación
+```java
+public void configurarMenu() {
+    JMenuBar menuBar = new JMenuBar();
+    
+    JMenu menuArchivo = new JMenu("Archivo");
+    menuArchivo.setMnemonic('A'); // Alt + A
+    
+    JMenuItem itemSalir = new JMenuItem("Salir");
+    itemSalir.setAccelerator(KeyStroke.getKeyStroke(
+        KeyEvent.VK_Q, ActionEvent.CTRL_MASK)); // Ctrl + Q
+    itemSalir.addActionListener(e -> System.exit(0));
+    
+    menuArchivo.add(itemSalir);
+    menuBar.add(menuArchivo);
+    
+    this.setJMenuBar(menuBar);
+}
+```
+
+### JToolBar
+```java
+JToolBar toolBar = new JToolBar();
+toolBar.setFloatable(false);
+
+JButton btnNuevo = new JButton(new ImageIcon("icons/new.png"));
+btnNuevo.setToolTipText("Crear nuevo registro");
+
+toolBar.add(btnNuevo);
+add(toolBar, BorderLayout.NORTH);
+```
+
+### Atajos de Teclado
+- **Mnemonics**: Alt + Tecla (subraya letra)
+- **Accelerators**: Ctrl + Tecla (ejecuta directo)
+
+---
+
+## 🔑 Principios de Diseño Aplicados
+
+### KISS (Keep It Simple, Stupid)
+- Empezar con componentes simples
+- No sobrecargar menús
+- Preferir lambdas sobre clases anónimas
+
+### SRP (Single Responsibility Principle)
+- Un método = una responsabilidad
+- `crearPanelFormulario()` solo crea el formulario
+- `validarCampos()` solo valida
+
+### DRY (Don't Repeat Yourself)
+```java
+// ✅ BIEN
+private void mostrarError(String mensaje) {
+    JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
+}
+
+// ❌ MAL: Repetir JOptionPane en cada lugar
+```
+
+### Encapsulamiento
+- Componentes como atributos `private`
+- Acceso controlado mediante métodos públicos
+
+### Bajo Acoplamiento
+- Vista no conoce cómo funciona el Modelo
+- Controlador actúa como intermediario
+
+---
+
+## 📦 Proyecto Integrado Final: Gestor de Estudiantes
+
+### Características Implementadas
+1. **Formulario de registro** (Lecciones 1-4)
+   - Campos: Nombre, Carrera, Horario, Becado, Biografía
+   
+2. **Tabla de estudiantes** (Lección 7)
+   - Columnas: Carné, Nombre, Carrera, Promedio
+   - Ordenamiento automático
+   
+3. **Eventos y validación** (Lecciones 3, 8)
+   - Validación de campos vacíos
+   - Validación de formatos numéricos
+   - Confirmaciones para eliminar
+   
+4. **Arquitectura MVC** (Lección 5)
+   - Modelo: Clase `Estudiante`
+   - Vista: `VistaEstudiantes`
+   - Controlador: `ControladorEstudiantes`
+   
+5. **Menús y toolbar** (Lección 9)
+   - Menú Archivo, Edición, Ayuda
+   - Barra de herramientas con iconos
+
+---
+
+## 🎓 Conclusiones Clave
+
+### Desarrollo Progresivo
+El curso sigue un enfoque **incremental**: cada lección construye sobre la anterior.
+
+### Buenas Prácticas Esenciales
+1. Siempre usar `SwingUtilities.invokeLater()`
+2. Separar lógica de UI de lógica de negocio
+3. Validar temprano, validar siempre
+4. Usar `JScrollPane` con listas y tablas
+5. Aplicar MVC para aplicaciones complejas
+
+### Componentes Clave
+- **Básicos**: JFrame, JPanel, JLabel, JButton, JTextField
+- **Selección**: JComboBox, JCheckBox, JRadioButton, JTextArea
+- **Avanzados**: JList, JTable, JMenuBar, JToolBar
+
+### Evolución de Habilidades
+```
+Lección 1-2: Estructura visual básica
+Lección 3-4: Interactividad y selección
+Lección 5-6: Arquitectura y estructuras de datos
+Lección 7-8: Componentes avanzados y validación
+Lección 9: Profesionalización de la interfaz
+```
+
+---
+
+## 📚 Referencias Clave
+
+- Oracle. (2024). *Creating a GUI With Swing*. The Java™ Tutorials.
+  https://docs.oracle.com/javase/tutorial/uiswing/
+  
+- Oracle. (2024). *Java Platform SE 21 API Specification*.
+  https://docs.oracle.com/en/java/javase/21/docs/api/
+  
+- Freeman, E., & Robson, E. (2020). *Head First Design Patterns* (2nd ed.). O'Reilly Media.
+
+---
+
+**Autor del resumen:** TxLexis  
+**Curso:** IF0004 - Desarrollo de Software II  
+**Fecha:** 2026-02-11

@@ -1,1 +1,179 @@
+# Resumen Completo: Excepciones en Java
 
+## 📚 Visión General
+
+Este conjunto de 10 presentaciones cubre **manejo de excepciones en Java** desde fundamentos hasta arquitectura por capas, con enfoque en **robustez, claridad y buenas prácticas**.
+
+---
+
+## 🎯 Conceptos Clave por Presentación
+
+### **1. Introducción a Excepciones**
+- **Qué es**: Evento que interrumpe el flujo normal → transfiere control a un `catch` o propaga
+- **Por qué**: Separar "happy path" del "error path" para código robusto
+- **Vocabulario**: `throw`, `try`, `catch`, `finally`, `throws`, stack trace
+- **Regla de oro**: Manejá lo recuperable; reportá y detené lo no recuperable
+
+---
+
+### **2. Checked vs Unchecked**
+- **Checked** (ej. `IOException`):
+  - Heredan de `Exception` (no de `RuntimeException`)
+  - Compilador **obliga** a capturar o declarar (`throws`)
+  - Para fallos del entorno/IO recuperables
+  
+- **Unchecked** (ej. `IllegalArgumentException`):
+  - Heredan de `RuntimeException`
+  - No obligan manejo en tiempo de compilación
+  - Para mal uso de API o precondiciones violadas
+
+**Decisión**: ¿El llamador puede recuperarse razonablemente? → Checked. ¿Es bug/precondición? → Unchecked.
+
+---
+
+### **3. Try / Catch / Finally**
+- **Orden de `catch`**: De específico → general (o error de compilación)
+- **Multi-catch**: `catch (A | B e)` cuando acción es igual
+- **`finally`**: Se ejecuta **siempre** (limpieza, cierre recursos)
+- **Antipatrón**: `catch (Exception e) {}` oculta errores
+
+---
+
+### **4. `throw` y `throws`**
+- **`throw`**: Lanza excepción en el código
+- **`throws`**: Declara en firma del método
+- **Propagación**: Si no capturás, sube por la pila de llamadas
+- **Cuándo propagar**: Cuando la decisión de manejo pertenece a capa superior
+- **Envolver**: `throw new ServiceException(msg, cause)` preserva causa raíz
+
+---
+
+### **5. Stack Trace y Causa Raíz**
+- **Stack trace**: Tipo + mensaje + frames (clase/método/línea)
+- **Causa raíz**: Primer punto en *tu código* donde falla (buscar "Caused by")
+- **Mensajes útiles**:
+  - Dev (logs): contexto + causa
+  - UI: claro, accionable, sin detalles técnicos
+- **Regla**: Envolver con `cause` → no perder trazabilidad
+
+---
+
+### **6. Antipatrones**
+**Los peores errores**:
+1. **Catch vacío** (`swallowing`): oculta fallos
+2. **Catch genérico sin causa**: `throw new RuntimeException("Error")`
+3. **`printStackTrace()` como política**
+4. **Convertir todo en `null`**: rompe contratos
+5. **Manejar en capa incorrecta**: servicio mostrando diálogos
+
+**Corrección**: Capturar específico, con acción concreta, en capa correcta.
+
+---
+
+### **7. Try-with-resources**
+- Para recursos `AutoCloseable` (archivos, streams, BD)
+- **Garantiza cierre automático** incluso con excepción
+- Más seguro que `finally` manual
+```java
+try (BufferedReader r = Files.newBufferedReader(path)) {
+    // uso
+} // cierre automático
+```
+
+---
+
+### **8. Excepciones Personalizadas**
+**Cuándo crear**:
+- Regla de negocio clara ("saldo insuficiente")
+- El llamador necesita reaccionar distinto
+- Adjuntar contexto seguro (IDs, montos)
+
+**Estructura**:
+```java
+public class InsufficientBalanceException extends RuntimeException {
+    private final String accountId;
+    private final long attempted, available;
+    
+    public InsufficientBalanceException(String accountId, long attempted, long available) {
+        super("Insufficient balance for " + accountId);
+        // guardar campos
+    }
+}
+```
+**Recomendación**: Unchecked para dominio (menos verboso).
+
+---
+
+### **9. Estrategia por Capas (MVC)**
+
+| Capa | Responsabilidad | Qué hace con excepciones |
+|------|-----------------|--------------------------|
+| **Repository** | IO/DB | Envolver en `DataAccessException(msg, cause)` |
+| **Service** | Reglas negocio | Lanzar excepciones de dominio |
+| **Controller/UI** | Traducir a respuesta | Capturar y mostrar mensajes accionables |
+
+**Reglas**:
+- Cada capa maneja en su nivel de abstracción
+- Siempre preservar `cause`
+- UI **nunca** hace lógica de negocio
+- Service **nunca** muestra diálogos
+
+---
+
+### **10. Política de Errores + Pruebas**
+
+**Política mínima**:
+1. **Clasificar fallos**: precondición / negocio / infraestructura
+2. **Definir qué se captura dónde** (ver tabla arriba)
+3. **Mensajes**: logs técnicos vs UI amigable
+4. **Preservar causa** siempre
+
+**Pruebas obligatorias**:
+- Entrada inválida (`null`, negativo, vacío)
+- Formato incorrecto (CSV malo, fecha inválida)
+- Infraestructura (archivo inexistente, permisos)
+- Reglas de negocio (saldo insuficiente, cupo lleno)
+
+```java
+@Test
+void withdraw_failsWhenInsufficientBalance() {
+    assertThrows(InsufficientBalanceException.class,
+        () -> service.withdraw("acc1", 100));
+}
+```
+
+---
+
+## 🔑 Reglas de Oro (Resumen)
+
+1. **Capturá solo lo que podés manejar** → lo demás propagá con contexto
+2. **Orden de catch**: específico → general
+3. **Siempre preservar causa**: `new XException(msg, cause)`
+4. **Try-with-resources** para cualquier `AutoCloseable`
+5. **Excepciones de dominio** para negocio claro
+6. **MVC estricto**: UI traduce, service aplica reglas, repo envuelve IO
+7. **Mensajes útiles**: contexto técnico en logs, accionable en UI
+8. **Probar rutas de error** tanto como happy path
+
+---
+
+## 📖 Referencias Principales
+- Bloch, J. (2018). *Effective Java* (3rd ed.)
+- Oracle. *The Java Tutorials: Exceptions*
+- Fowler, M. (2002). *Patterns of Enterprise Application Architecture*
+
+---
+
+## ✅ Checklist de Implementación
+
+- [ ] Política de errores documentada (checked vs unchecked)
+- [ ] Excepciones de dominio definidas
+- [ ] Try-with-resources en todos los recursos
+- [ ] Capas MVC sin mezclar responsabilidades
+- [ ] Mensajes con contexto + causa preservada
+- [ ] Pruebas para al menos 5 rutas de error críticas
+- [ ] Sin `catch (Exception e) {}` en el código
+
+---
+
+**💡 Principio guía**: *Las excepciones no son "algo malo", son una forma estructurada de modelar fallos y mantener el código robusto y mantenible.*

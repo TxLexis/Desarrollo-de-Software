@@ -1,44 +1,44 @@
 --------- EXCEPCIONES ---------
 
-public class ValidationException extends RuntimeException {
-    public ValidationException(String message) {
-        super(message);
+    public class ValidationException extends RuntimeException {
+        public ValidationException(String message) {
+            super(message);
+        }
     }
-}
 
 
-public class DataAccessException extends RuntimeException {
-    public DataAccessException(String message, Throwable cause) {
-        super(message, cause);
+    public class DataAccessException extends RuntimeException {
+        public DataAccessException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
-}
 
 --------- REPOSITORIO ---------
 
 INTERFACE:
 
-import model.Item;
-import java.util.List;
-
-public interface ItemRepository {
-    List<Item> load();          // cargar del archivo
-    void save(List<Item> items);// guardar al archivo
-}
+    import model.Item;
+    import java.util.List;
+    
+    public interface ItemRepository {
+        List<Item> load();          // cargar del archivo
+        void save(List<Item> items);// guardar al archivo
+    }
 
 ARCHIVOS:
 
-import exceptions.DataAccessException;
-import model.Item;
+    import exceptions.DataAccessException;
+    import model.Item;
+    
+    import java.io.BufferedReader;
+    import java.io.BufferedWriter;
+    import java.io.IOException;
+    import java.nio.file.Files;
+    import java.nio.file.Path;
+    import java.util.ArrayList;
+    import java.util.List;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
-
-public class JsonItemRepository implements ItemRepository {
+    public class JsonItemRepository implements ItemRepository {   
 
     private final Path file;
 
@@ -79,16 +79,16 @@ public class JsonItemRepository implements ItemRepository {
 
 --------- CONTROLADOR ---------
 
-import exceptions.ValidationException;
-import model.EstadoItem;
-import model.Item;
-import repository.ItemRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-public class ItemController {
+    import exceptions.ValidationException;
+    import model.EstadoItem;
+    import model.Item;
+    import repository.ItemRepository;
+    
+    import java.util.ArrayList;
+    import java.util.List;
+    import java.util.UUID;
+    
+    public class ItemController {
 
     private final ItemRepository repo;
     private final List<Item> items = new ArrayList<>();
@@ -135,17 +135,17 @@ public class ItemController {
 
 --------- VISTA ---------
 
-import controller.ItemController;
-import exceptions.DataAccessException;
-import exceptions.ValidationException;
-import model.EstadoItem;
-import model.Item;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
-
-public class MainFrame extends JFrame {
+    import controller.ItemController;
+    import exceptions.DataAccessException;
+    import exceptions.ValidationException;
+    import model.EstadoItem;
+    import model.Item;
+    
+    import javax.swing.*;
+    import java.awt.*;
+    import java.util.List;
+    
+    public class MainFrame extends JFrame {
 
     private final ItemController controller;
 
@@ -287,19 +287,19 @@ public class MainFrame extends JFrame {
 
 --------- MAIN ---------
 
-import controller.ItemController;
-import repository.ItemRepository;
-import repository.JsonItemRepository;
-
-import javax.swing.*;
-import java.nio.file.Path;
-
-public class Main {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            ItemRepository repo = new JsonItemRepository(Path.of("data", "items.json"));
-            ItemController controller = new ItemController(repo);
-            new MainFrame(controller).setVisible(true);
-        });
+    import controller.ItemController;
+    import repository.ItemRepository;
+    import repository.JsonItemRepository;
+    
+    import javax.swing.*;
+    import java.nio.file.Path;
+    
+    public class Main {
+        public static void main(String[] args) {
+            SwingUtilities.invokeLater(() -> {
+                ItemRepository repo = new JsonItemRepository(Path.of("data", "items.json"));
+                ItemController controller = new ItemController(repo);
+                new MainFrame(controller).setVisible(true);
+            });
+        }
     }
-}
